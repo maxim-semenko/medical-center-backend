@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { UserEntity } from "./user.entity";
+import {VaccineEntity} from "./vaccine.entity";
 
 @Index("PK_vaccinate", ["userId", "vaccineId"], { unique: true })
 @Index("IXFK_vaccinate_user", ["vaccineId"], {})
@@ -18,7 +19,8 @@ export class M2mUserVaccineEntity {
   @Column("integer", { primary: true, name: "vaccine_id" })
   vaccineId: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.m2mUserVaccines)
-  @JoinColumn([{ name: "vaccine_id", referencedColumnName: "id" }])
-  vaccine: UserEntity;
+  @ManyToOne(() => VaccineEntity, (vaccine) => vaccine.vaccineId)
+  @JoinColumn([{ name: "vaccine_id", referencedColumnName: "vaccineId" }])
+  vaccine: VaccineEntity;
+
 }
