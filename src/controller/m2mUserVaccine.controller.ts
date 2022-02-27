@@ -1,36 +1,16 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
-import {UserService} from '../service/user.service';
-import {UserEntity} from "../entity/user.entity";
+import {Controller,  Get} from '@nestjs/common';
+import {M2mUserVaccineService} from '../service/m2mUserVaccine.service';
+import {M2mUserVaccineEntity} from "../entity/m2mUserVaccine.entity";
 
-@Controller('api/v1/users')
-export class UserController {
-    constructor(private readonly userService: UserService) {
+@Controller('api/v1/m2mUserVaccine')
+export class M2mUserVaccineController {
+    constructor(private readonly m2mUserVaccineService: M2mUserVaccineService) {
     }
 
     @Get()
-    findAll(): Promise<UserEntity[]> {
-        return this.userService.findAll();
+    findAll(): Promise<M2mUserVaccineEntity[]> {
+        return this.m2mUserVaccineService.findAll();
     }
-
-    @Get('/:id')
-    findById(@Param("id") id: number): Promise<UserEntity> {
-        return this.userService.findById(id);
-    }
-
-    @Post('')
-    @HttpCode(201)
-    create(@Body() userEntity: UserEntity): Promise<UserEntity> {
-        return this.userService.create(userEntity);
-    }
-
-    @Put('/:id')
-    update(@Param("id") id: number, @Body() userEntity: UserEntity): Promise<UserEntity> {
-        return this.userService.update(id, userEntity);
-    }
-
-    @Delete('/:id')
-    delete(@Param("id") id: number): void {
-        this.userService.deleteById(id);
-    }
-
 }
+
+
