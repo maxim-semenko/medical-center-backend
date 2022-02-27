@@ -19,11 +19,11 @@ describe('UserController', () => {
         userController = app.get<UserController>(UserController);
     });
 
-    describe('root', () => {
-        it('should return "update user by id = 1"', () => {
-            expect(userController.update(1)).toBe('update user by id = 1');
-        });
-    });
+    // describe('root', () => {
+    //     it('should return "update user by id = 1"', () => {
+    //         expect(userController.update(1)).toBe('update user by id = 1');
+    //     });
+    // });
 
     // describe('root', () => {
     //     it('should return "find user by id"', () => {
