@@ -1,16 +1,12 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
-import {EmployeeService} from '../service/employee.service';
+import {Module} from "@nestjs/common";
+import {TypeOrmModule} from "@nestjs/typeorm";
 import {EmployeeEntity} from "../entity/employee.entity";
+import {EmployeeController} from "../controller/employee.controller";
+import {EmployeeService} from "../service/employee.service";
 
-@Controller('api/v1/employees')
-export class EmployeeController {
-    constructor(private readonly employeeService: EmployeeService) {
-    }
-
-    @Get()
-    findAll(): Promise<EmployeeEntity[]> {
-        return this.employeeService.findAll();
-    }
-}
-
-
+@Module({
+    imports: [TypeOrmModule.forFeature([EmployeeEntity])],
+    controllers: [EmployeeController],
+    providers: [EmployeeService],
+})
+export class  EmployeeModule {}
