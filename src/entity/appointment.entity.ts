@@ -1,4 +1,4 @@
-import {Column, Entity, Index, JoinColumn, ManyToOne, OneToMany,} from "typeorm";
+import {Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
 import {EmployeeEntity} from "./employee.entity";
 import {UserEntity} from "./user.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
@@ -8,6 +8,10 @@ import {MedicalCardEntity} from "./medicalCard.entity";
 @Index("IXFK_reception_user", ["userId"], {})
 @Entity("appointment", {schema: "public"})
 export class AppointmentEntity {
+
+    @PrimaryGeneratedColumn({type: "integer", name: "appointment_id"})
+    appointmentId: number;
+
     @Column("integer", {primary: true, name: "employee_id"})
     employeeId: number;
 
