@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Controller,  Get} from '@nestjs/common';
 import {MedicalCardService} from '../service/medicalCard.service';
 import {MedicalCardEntity} from "../entity/medicalCard.entity";
 

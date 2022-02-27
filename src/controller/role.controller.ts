@@ -1,4 +1,5 @@
-import {Controller,  Get} from '@nestjs/common';import {RoleService} from '../service/role.service';
+import {Controller,  Get} from '@nestjs/common';
+import {RoleService} from '../service/role.service';
 import {RoleEntity} from "../entity/role.entity";
 
 @Controller('api/v1/roles')
