@@ -15,24 +15,33 @@ export class UserEntity {
     @Column("character varying", {name: "lastname", length: 50})
     lastname: string;
 
-    @Column("character varying", {name: "passport", length: 50})
+    @Column("character varying", {name: "passport", length: 50, unique: true})
     passport: string;
 
     @Column("smallint", {name: "age"})
     age: number;
 
-    @Column("character varying", {name: "blood_type", length: 50})
+    @Column("character varying", {name: "blood_type", length: 50, nullable:true})
     bloodType: string;
 
     @Column("smallint", {name: "role_id"})
     roleId: number;
 
-    @OneToMany(() => AppointmentEntity, (appointment) => appointment.user)
+    @OneToMany(() => AppointmentEntity, (appointment) => appointment.user, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
     appointments: AppointmentEntity[];
 
-    @OneToMany(() => M2mUserVaccineEntity, (m2mUserVaccine) => m2mUserVaccine.vaccine)
+    @OneToMany(() => M2mUserVaccineEntity, (m2mUserVaccine) => m2mUserVaccine.vaccine, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
     m2mUserVaccines: M2mUserVaccineEntity[];
 
-    @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.user)
+    @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.user, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
     medicalCards: MedicalCardEntity[];
 }

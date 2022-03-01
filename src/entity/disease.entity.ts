@@ -10,7 +10,7 @@ export class DiseaseEntity {
     @Column("character varying", {name: "name", length: 50})
     name: string;
 
-    @Column("character varying", {name: "description", length: 200})
+    @Column("character varying", {name: "description", length: 200, nullable: true})
     description: string;
 
     @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.disease)

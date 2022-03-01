@@ -1,4 +1,4 @@
-import {Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp,} from "typeorm";
 import {DiseaseEntity} from "./disease.entity";
 import {AppointmentEntity} from "./appointment.entity";
 import {UserEntity} from "./user.entity";
@@ -12,14 +12,14 @@ export class MedicalCardEntity {
     @PrimaryGeneratedColumn({type: "bigint", name: "id"})
     id: string;
 
-    @Column("integer", {name: "user_id", nullable: true})
+    @Column("integer", {name: "user_id"})
     userId: number | null;
 
-    @Column("date", {name: "start_date"})
-    startDate: string;
+    @Column("timestamp without time zone", {name: "start_date"})
+    startDate: Timestamp;
 
-    @Column("date", {name: "end_date"})
-    endDate: string;
+    @Column("timestamp without time zone", {name: "end_date"})
+    endDate: Timestamp;
 
     @Column("character varying", {
         name: "description",
@@ -31,16 +31,19 @@ export class MedicalCardEntity {
     @Column("boolean", {name: "is_rehabilitation", nullable: true})
     isRehabilitation: boolean | null;
 
-    @Column("integer", {name: "employee_id", nullable: true})
+    @Column("integer", {name: "employee_id"})
     employeeId: number | null;
 
     @Column("boolean", {name: "is_confirmation"})
     isConfirmation: boolean;
 
-    @Column("integer", {name: "disease_id", nullable: true})
+    @Column("integer", {name: "disease_id"})
     diseaseId: number | null;
 
-    @ManyToOne(() => DiseaseEntity, (disease) => disease.medicalCards)
+    @ManyToOne(() => DiseaseEntity, (disease) => disease.medicalCards, {
+        onDelete: "NO ACTION",
+        onUpdate: "CASCADE",
+    })
     @JoinColumn([{name: "disease_id", referencedColumnName: "diseaseId"}])
     disease: DiseaseEntity;
 
@@ -52,7 +55,7 @@ export class MedicalCardEntity {
     appointment: AppointmentEntity;
 
     @ManyToOne(() => UserEntity, (user) => user.medicalCards, {
-        onDelete: "CASCADE",
+        onDelete: "NO ACTION",
         onUpdate: "CASCADE",
     })
     @JoinColumn([{name: "user_id", referencedColumnName: "id"}])

@@ -1,4 +1,4 @@
-import {Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp,} from "typeorm";
 import {EmployeeEntity} from "./employee.entity";
 import {UserEntity} from "./user.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
@@ -18,11 +18,14 @@ export class AppointmentEntity {
     @Column("integer", {primary: true, name: "user_id"})
     userId: number;
 
-    @Column("date", {name: "start_date"})
-    startDate: string;
+    @Column('timestamp without time zone', {
+        name: 'start_date',
+        nullable: true,
+    })
+    startDate: Timestamp;
 
-    @Column("date", {name: "end_date"})
-    endDate: string;
+    @Column("timestamp without time zone", {name: "end_date"})
+    endDate: Timestamp;
 
     @Column("character varying", {
         name: "description",
