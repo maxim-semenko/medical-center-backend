@@ -22,8 +22,7 @@ export class UserAccessService {
     }
 
     update(id: number, userAccessEntity: UserAccessEntity): Promise<UserAccessEntity> {
-        userAccessEntity.userId = id; // спорный вопрос
-        return this.userAccessRepository.save(userAccessEntity);
+        return this.userAccessRepository.update(id, userAccessEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

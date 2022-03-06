@@ -22,8 +22,7 @@ export class UserService {
     }
 
     update(id: number, userEntity: UserEntity): Promise<UserEntity> {
-        userEntity.id = id;
-        return this.userRepository.save(userEntity);
+        return this.userRepository.update(id, userEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

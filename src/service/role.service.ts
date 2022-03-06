@@ -22,8 +22,7 @@ export class RoleService {
     }
 
     update(id: number, roleEntity: RoleEntity): Promise<RoleEntity> {
-        roleEntity.id = id;
-        return this.roleRepository.save(roleEntity);
+        return this.roleRepository.update(id, roleEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

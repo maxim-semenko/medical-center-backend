@@ -22,8 +22,7 @@ export class VaccineService {
     }
 
     update(id: number, vaccineEntity: VaccineEntity): Promise<VaccineEntity> {
-        vaccineEntity.vaccineId = id;
-        return this.vaccineRepository.save(vaccineEntity);
+        return this.vaccineRepository.update(id, vaccineEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

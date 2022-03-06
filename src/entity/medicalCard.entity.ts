@@ -10,7 +10,7 @@ import {UserEntity} from "./user.entity";
 @Entity("medical_card", {schema: "public"})
 export class MedicalCardEntity {
     @PrimaryGeneratedColumn({type: "bigint", name: "id"})
-    id: string;
+    id: number;
 
     @Column("integer", {name: "user_id"})
     userId: number | null;

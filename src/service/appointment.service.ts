@@ -21,9 +21,9 @@ export class AppointmentService {
         return this.appointmentRepository.save(appointmentEntity);
     }
 
-    // update(appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {
-    //     return this.appointmentRepository.update(appointmentEntity);        //необходимо добавить в энтити нормальный первичный ключ
-    // }
+    update(id: number, appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {
+        return this.appointmentRepository.update(id, appointmentEntity).then(x => this.findById(id));
+    }
 
     deleteById(id: number): void {
         this.appointmentRepository.delete(id)

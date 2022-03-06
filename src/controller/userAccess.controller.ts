@@ -1,4 +1,4 @@
-import {Controller,  Get} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
 import {UserAccessService} from '../service/userAccess.service';
 import {UserAccessEntity} from "../entity/userAccess.entity";
 
@@ -10,6 +10,27 @@ export class UserAccessController {
     @Get()
     findAll(): Promise<UserAccessEntity[]> {
         return this.userAccessService.findAll();
+    }
+
+    @Get('/:id')
+    findById(@Param("id") id: number): Promise<UserAccessEntity> {
+        return this.userAccessService.findById(id);
+    }
+
+    @Post('')
+    @HttpCode(201)
+    create(@Body() userAccessEntity: UserAccessEntity): Promise<UserAccessEntity> {
+        return this.userAccessService.create(userAccessEntity);
+    }
+
+    @Put('/:id')
+    update(@Param("id") id: number, @Body() userAccessEntity: UserAccessEntity): Promise<UserAccessEntity> {
+        return this.userAccessService.update(id, userAccessEntity);
+    }
+
+    @Delete('/:id')
+    delete(@Param("id") id: number): void {
+        this.userAccessService.deleteById(id);
     }
 }
 

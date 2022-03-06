@@ -3,8 +3,8 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "root",
-  "database": "node_test",
+  "password": "",
+  "database": "medical_centre",
   "entities": ["dist/**/*.entity{.ts,.js}"],
   "synchronize": true,
   "logging": ["query", "error"]
