@@ -21,7 +21,7 @@ export class UserEntity {
     @Column("smallint", {name: "age"})
     age: number;
 
-    @Column("character varying", {name: "blood_type", length: 50, nullable:true})
+    @Column("character varying", {name: "blood_type", length: 50, nullable: true})
     bloodType: string;
 
     @Column("smallint", {name: "role_id"})

@@ -1,7 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {AppointmentEntity} from "../entity/appointment.entity";
 import {DiseaseEntity} from "../entity/disease.entity";
 
 @Injectable()
@@ -18,13 +17,12 @@ export class DiseaseService {
         return this.diseaseRepository.find();
     }
 
-    create(appointmentEntity: AppointmentEntity): Promise<DiseaseEntity> {
-        return this.diseaseRepository.save(appointmentEntity);
+    create(diseaseEntity: DiseaseEntity): Promise<DiseaseEntity> {
+        return this.diseaseRepository.save(diseaseEntity);
     }
 
     update(id: number, diseaseEntity: DiseaseEntity): Promise<DiseaseEntity> {
-        diseaseEntity.diseaseId = id;
-        return this.diseaseRepository.save(diseaseEntity);
+        return this.diseaseRepository.update(id, diseaseEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

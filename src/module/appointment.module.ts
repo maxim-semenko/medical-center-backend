@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {AppointmentEntity} from "../entity/appointment.entity";
 import {AppointmentController} from "../controller/appointment.controller";
@@ -9,6 +9,7 @@ import {AppointmentService} from "../service/appointment.service";
     controllers: [AppointmentController],
     providers: [AppointmentService],
 })
-export class AppointmentModule {}
+export class AppointmentModule {
+}
 
 

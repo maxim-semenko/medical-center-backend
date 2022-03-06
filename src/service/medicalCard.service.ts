@@ -22,8 +22,7 @@ export class MedicalCardService {
     }
 
     update(id: number, medicalCardEntity: MedicalCardEntity): Promise<MedicalCardEntity> {
-        //  medicalCardEntity.id = id;   // почему id - строка???
-        return this.medicalCardRepository.save(medicalCardEntity);
+        return this.medicalCardRepository.update(id, medicalCardEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {

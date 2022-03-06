@@ -22,8 +22,7 @@ export class EmployeeService {
     }
 
     update(id: number, employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
-        employeeEntity.id = id;
-        return this.employeeRepository.save(employeeEntity);
+        return this.employeeRepository.update(id, employeeEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {
