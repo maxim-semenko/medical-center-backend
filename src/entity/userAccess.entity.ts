@@ -1,8 +1,5 @@
-import {Column, Entity, Index} from "typeorm";
+import {Column, Entity} from "typeorm";
 
-@Index("PK_user_access", ["userId"], {unique: true})
-@Index("IXFK_user_access_employee", ["userId"], {})
-@Index("IXFK_user_access_user", ["userId"], {})
 @Entity("user_access", {schema: "public"})
 export class UserAccessEntity {
     @Column("integer", {primary: true, name: "user_id"})

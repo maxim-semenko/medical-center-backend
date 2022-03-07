@@ -1,7 +1,6 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
 import {VaccineService} from '../service/vaccine.service';
 import {VaccineEntity} from "../entity/vaccine.entity";
-import {UpdateResult} from "typeorm";
 
 @Controller('api/v1/vaccines')
 export class VaccineController {

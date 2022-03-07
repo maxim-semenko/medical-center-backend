@@ -1,12 +1,8 @@
-import {Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp,} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp,} from "typeorm";
 import {DiseaseEntity} from "./disease.entity";
 import {AppointmentEntity} from "./appointment.entity";
 import {UserEntity} from "./user.entity";
 
-@Index("IXFK_medical_card_disease", ["diseaseId"], {})
-@Index("IXFK_medical_card_reception", ["employeeId", "userId"], {})
-@Index("PK_Table1", ["id"], {unique: true})
-@Index("IXFK_medical_card_user", ["userId"], {})
 @Entity("medical_card", {schema: "public"})
 export class MedicalCardEntity {
     @PrimaryGeneratedColumn({type: "bigint", name: "id"})

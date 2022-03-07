@@ -10,11 +10,11 @@ export class AppointmentService {
     }
 
     findById(id: number): Promise<AppointmentEntity> {
-        return this.appointmentRepository.findOne(id);
+        return this.appointmentRepository.findOne(id, {relations: ["user", "employee"]});
     }
 
     findAll(): Promise<AppointmentEntity[]> {
-        return this.appointmentRepository.find();
+        return this.appointmentRepository.find({relations: ["user", "employee"]});
     }
 
     create(appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {
