@@ -1,9 +1,8 @@
-import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
 import {AppointmentEntity} from "./appointment.entity";
 import {M2mUserVaccineEntity} from "./m2mUserVaccine.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
 
-@Index("PK_User", ["id"], {unique: true})
 @Entity("user", {schema: "public"})
 export class UserEntity {
     @PrimaryGeneratedColumn({type: "integer", name: "id"})

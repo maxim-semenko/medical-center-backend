@@ -1,7 +1,6 @@
-import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
 import {AppointmentEntity} from "./appointment.entity";
 
-@Index("PK_employee", ["id"], {unique: true})
 @Entity("employee", {schema: "public"})
 export class EmployeeEntity {
     @PrimaryGeneratedColumn({type: "integer", name: "id"})
