@@ -18,6 +18,6 @@ export class EmployeeEntity {
     @Column("smallint", {name: "role_id"})
     roleId: number;
 
-    @OneToMany(() => AppointmentEntity, (appointment) => appointment.employeeId)
+    @OneToMany(() => AppointmentEntity, (appointment) => appointment.employee)
     appointments: AppointmentEntity[];
 }

@@ -36,7 +36,7 @@ export class AppointmentEntity {
         onUpdate: "CASCADE",
     })
     @JoinColumn([{name: "employee_id", referencedColumnName: "id"}])
-    employeeId: EmployeeEntity;
+    employee: EmployeeEntity;
 
     @ManyToOne(() => UserEntity, (user) => user.appointments, {
         onDelete: "CASCADE",
