@@ -6,14 +6,14 @@ import {MedicalCardEntity} from "./medicalCard.entity";
 @Entity("appointment", {schema: "public"})
 export class AppointmentEntity {
 
-    @PrimaryGeneratedColumn({type: "integer", name: "appointment_id"})
-    appointmentId: number;
+    @PrimaryGeneratedColumn({type: "integer", name: "id"})
+    id: number;
 
-    @Column("integer", {primary: true, name: "employee_id", unique: true})
-    employeeId: number;
-
-    @Column("integer", {primary: true, name: "user_id", unique: true})
-    userId: number;
+    // @Column("integer", {name: "employee_id", unique: true})
+    // employeeId: number;
+    //
+    // @Column("integer", {name: "user_id", unique: true})
+    // userId: number;
 
     @Column('timestamp without time zone', {
         name: 'start_date',
@@ -36,7 +36,7 @@ export class AppointmentEntity {
         onUpdate: "CASCADE",
     })
     @JoinColumn([{name: "employee_id", referencedColumnName: "id"}])
-    employee: EmployeeEntity;
+    employeeId: EmployeeEntity;
 
     @ManyToOne(() => UserEntity, (user) => user.appointments, {
         onDelete: "CASCADE",

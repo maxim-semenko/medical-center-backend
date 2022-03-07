@@ -44,10 +44,7 @@ export class MedicalCardEntity {
     disease: DiseaseEntity;
 
     @ManyToOne(() => AppointmentEntity, (appointment) => appointment.medicalCards)
-    @JoinColumn([
-        {name: "employee_id", referencedColumnName: "employeeId"},
-        {name: "user_id", referencedColumnName: "userId"},
-    ])
+    @JoinColumn([{name: "appointment_id", referencedColumnName: "id"}])
     appointment: AppointmentEntity;
 
     @ManyToOne(() => UserEntity, (user) => user.medicalCards, {
