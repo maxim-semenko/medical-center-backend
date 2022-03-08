@@ -6,7 +6,7 @@ export class M2mUserVaccineEntity {
     @PrimaryGeneratedColumn({type: "integer", name: "user_id"})
     userId: number;
 
-    @Column("integer", {primary: true, name: "vaccine_id"})
+    @Column("integer", {name: "vaccine_id"})
     vaccineId: number;
 
     @ManyToOne(() => VaccineEntity, (vaccine) => vaccine.vaccineId)

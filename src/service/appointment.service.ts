@@ -13,6 +13,34 @@ export class AppointmentService {
         return this.appointmentRepository.findOne(id, {relations: ["user", "employee"]});
     }
 
+    findAllUserAppointment(userId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentRepository.find({
+            where: {
+                user: userId,
+            },
+            relations: ["user", "employee"]
+        });
+    }
+
+    findAllUserAppointmentToEmployee(employeeId: number, userId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentRepository.find({
+            where: {
+                employee: employeeId,
+                user: userId,
+            },
+            relations: ["user"]
+        });
+    }
+
+    findAllEmployeeAppointment(employeeId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentRepository.find({
+            where: {
+                employee: employeeId
+            },
+            relations: ["user"]
+        });
+    }
+
     findAll(): Promise<AppointmentEntity[]> {
         return this.appointmentRepository.find({relations: ["user", "employee"]});
     }

@@ -9,12 +9,21 @@ export class MedicalCardService {
     constructor(@InjectRepository(MedicalCardEntity) private medicalCardRepository: Repository<MedicalCardEntity>) {
     }
 
+    findUserMedicalCard(userId: number): Promise<MedicalCardEntity[]> {
+        return this.medicalCardRepository.find({
+            where: {
+                user: userId,
+            },
+            relations: ["employee"]
+        });
+    }
+
     findById(id: number): Promise<MedicalCardEntity> {
-        return this.medicalCardRepository.findOne(id);
+        return this.medicalCardRepository.findOne(id, {relations: ["disease", "appointment", "user"]});
     }
 
     findAll(): Promise<MedicalCardEntity[]> {
-        return this.medicalCardRepository.find();
+        return this.medicalCardRepository.find({relations: ["disease", "appointment", "user"]});
     }
 
     create(medicalCardEntity: MedicalCardEntity): Promise<MedicalCardEntity> {
