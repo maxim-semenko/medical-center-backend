@@ -9,12 +9,6 @@ export class AppointmentEntity {
     @PrimaryGeneratedColumn({type: "integer", name: "id"})
     id: number;
 
-    // @Column("integer", {name: "employee_id", unique: true})
-    // employeeId: number;
-    //
-    // @Column("integer", {name: "user_id", unique: true})
-    // userId: number;
-
     @Column('timestamp without time zone', {
         name: 'start_date',
         nullable: true,

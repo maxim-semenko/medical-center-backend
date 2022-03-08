@@ -7,6 +7,11 @@ export class MedicalCardController {
     constructor(private readonly medicalCardService: MedicalCardService) {
     }
 
+    @Get('/users/:userId')
+    findUserMedicalCard(@Param("userId") userId: number): Promise<MedicalCardEntity[]> {
+        return this.medicalCardService.findUserMedicalCard(userId);
+    }
+
     @Get()
     findAll(): Promise<MedicalCardEntity[]> {
         return this.medicalCardService.findAll();

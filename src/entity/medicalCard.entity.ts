@@ -2,14 +2,12 @@ import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Timestamp
 import {DiseaseEntity} from "./disease.entity";
 import {AppointmentEntity} from "./appointment.entity";
 import {UserEntity} from "./user.entity";
+import {EmployeeEntity} from "./employee.entity";
 
 @Entity("medical_card", {schema: "public"})
 export class MedicalCardEntity {
     @PrimaryGeneratedColumn({type: "bigint", name: "id"})
     id: number;
-
-    @Column("integer", {name: "user_id"})
-    userId: number | null;
 
     @Column("timestamp without time zone", {name: "start_date"})
     startDate: Timestamp;
@@ -26,9 +24,6 @@ export class MedicalCardEntity {
 
     @Column("boolean", {name: "is_rehabilitation", nullable: true})
     isRehabilitation: boolean | null;
-
-    @Column("integer", {name: "employee_id"})
-    employeeId: number | null;
 
     @Column("boolean", {name: "is_confirmation"})
     isConfirmation: boolean;
@@ -53,4 +48,11 @@ export class MedicalCardEntity {
     })
     @JoinColumn([{name: "user_id", referencedColumnName: "id"}])
     user: UserEntity;
+
+    @ManyToOne(() => UserEntity, (user) => user.medicalCards, {
+        onDelete: "NO ACTION",
+        onUpdate: "CASCADE",
+    })
+    @JoinColumn([{name: "employeeId", referencedColumnName: "id"}])
+    employee: EmployeeEntity;
 }

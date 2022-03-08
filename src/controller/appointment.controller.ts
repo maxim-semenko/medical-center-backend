@@ -7,6 +7,21 @@ export class AppointmentController {
     constructor(private readonly appointmentService: AppointmentService) {
     }
 
+    @Get('/users/:userId')
+    findAllUserAppointment(@Param("userId") userId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentService.findAllUserAppointment(userId);
+    }
+
+    @Get('/employees/:employeeId/users/:userId')
+    findAllUserAppointmentToEmployee(@Param("employeeId") employeeId: number, @Param("userId") userId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentService.findAllUserAppointmentToEmployee(employeeId, userId);
+    }
+
+    @Get('/employees/:employeeId')
+    findAllEmployeeAppointment(@Param("employeeId") employeeId: number): Promise<AppointmentEntity[]> {
+        return this.appointmentService.findAllEmployeeAppointment(employeeId);
+    }
+
     @Get()
     findAll(): Promise<AppointmentEntity[]> {
         return this.appointmentService.findAll();

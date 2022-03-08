@@ -7,7 +7,7 @@ export class UserVaccineController {
     constructor(private readonly userVaccineService: UserVaccineService) {
     }
 
-    @Get()
+    @Get('')
     findAll(): Promise<M2mUserVaccineEntity[]> {
         return this.userVaccineService.findAll();
     }
