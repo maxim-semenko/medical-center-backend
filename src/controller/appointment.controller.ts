@@ -7,6 +7,7 @@ export class AppointmentController {
     constructor(private readonly appointmentService: AppointmentService) {
     }
 
+    // Находит все записи по id пациента
     @Get('/users/:userId')
     findAllUserAppointment(@Param("userId") userId: number): Promise<AppointmentEntity[]> {
         return this.appointmentService.findAllUserAppointment(userId);
@@ -17,6 +18,7 @@ export class AppointmentController {
         return this.appointmentService.findAllUserAppointmentToEmployee(employeeId, userId);
     }
 
+    // Находит все записи по id врача
     @Get('/employees/:employeeId')
     findAllEmployeeAppointment(@Param("employeeId") employeeId: number): Promise<AppointmentEntity[]> {
         return this.appointmentService.findAllEmployeeAppointment(employeeId);
