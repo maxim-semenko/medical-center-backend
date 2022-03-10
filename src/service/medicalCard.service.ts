@@ -14,7 +14,16 @@ export class MedicalCardService {
             where: {
                 user: userId,
             },
-            relations: ["employee"]
+            relations: ["user", "employee", "disease"]
+        });
+    }
+
+    findEmployeeMedicalCard(employeeId: number): Promise<MedicalCardEntity[]> {
+        return this.medicalCardRepository.find({
+            where: {
+                employee: employeeId,
+            },
+            relations: ["employee", "user", "disease"]
         });
     }
 

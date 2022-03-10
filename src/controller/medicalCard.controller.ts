@@ -12,6 +12,11 @@ export class MedicalCardController {
         return this.medicalCardService.findUserMedicalCard(userId);
     }
 
+    @Get('/employees/:employeeId')
+    findEmployeeMedicalCard(@Param("employeeId") employeeId: number): Promise<MedicalCardEntity[]> {
+        return this.medicalCardService.findEmployeeMedicalCard(employeeId);
+    }
+
     @Get()
     findAll(): Promise<MedicalCardEntity[]> {
         return this.medicalCardService.findAll();

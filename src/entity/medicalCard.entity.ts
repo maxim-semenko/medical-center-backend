@@ -49,7 +49,7 @@ export class MedicalCardEntity {
     @JoinColumn([{name: "user_id", referencedColumnName: "id"}])
     user: UserEntity;
 
-    @ManyToOne(() => UserEntity, (user) => user.medicalCards, {
+    @ManyToOne(() => EmployeeEntity, (employee) => employee.appointments, {
         onDelete: "NO ACTION",
         onUpdate: "CASCADE",
     })
