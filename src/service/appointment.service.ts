@@ -28,7 +28,7 @@ export class AppointmentService {
                 employee: employeeId,
                 user: userId,
             },
-            relations: ["user"]
+            relations: ["user", "employee"]
         });
     }
 
@@ -37,7 +37,7 @@ export class AppointmentService {
             where: {
                 employee: employeeId
             },
-            relations: ["user"]
+            relations: ["user", "employee"]
         });
     }
 
