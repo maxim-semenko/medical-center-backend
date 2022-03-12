@@ -32,6 +32,7 @@ export class AppointmentService {
         });
     }
 
+
     findAllEmployeeAppointment(employeeId: number): Promise<AppointmentEntity[]> {
         return this.appointmentRepository.find({
             where: {

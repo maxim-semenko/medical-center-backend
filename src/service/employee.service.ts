@@ -13,8 +13,8 @@ export class EmployeeService {
                 @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>) {
     }
 
-    findAllEmployeeUser(employeeId: number): Promise<UserEntity[]> {
-        const userIds = this.appointmentRepository
+    async findAllEmployeeUser(employeeId: number): Promise<UserEntity[]> {
+        const userIds: any[] = await this.appointmentRepository
             .query("SELECT DISTINCT user_id FROM appointment WHERE employee_id = $1", [1]);
         console.log(userIds);
         return this.userRepository.find({
