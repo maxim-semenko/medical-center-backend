@@ -1,10 +1,16 @@
 import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
 import {EmployeeService} from '../service/employee.service';
 import {EmployeeEntity} from "../entity/employee.entity";
+import {UserEntity} from "../entity/user.entity";
 
 @Controller('api/v1/employees')
 export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService) {
+    }
+
+    @Get('/:id/users')
+    findAllEmployeeUser(@Param("id") employeeId: number): Promise<UserEntity[]> {
+        return this.employeeService.findAllEmployeeUser(employeeId);
     }
 
     @Get()
