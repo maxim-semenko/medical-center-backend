@@ -1,7 +1,7 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {AppointmentEntity} from "./appointment.entity";
-import {M2mUserVaccineEntity} from "./m2mUserVaccine.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
+import {VaccineEntity} from "./vaccine.entity";
 
 @Entity("user", {schema: "public"})
 export class UserEntity {
@@ -32,11 +32,9 @@ export class UserEntity {
     })
     appointments: AppointmentEntity[];
 
-    @OneToMany(() => M2mUserVaccineEntity, (m2mUserVaccine) => m2mUserVaccine.vaccine, {
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-    })
-    m2mUserVaccines: M2mUserVaccineEntity[];
+    @ManyToMany(() => VaccineEntity, vaccine => vaccine.vaccineId)
+    @JoinTable()
+    vaccine: VaccineEntity[];
 
     @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.user, {
         onDelete: "CASCADE",
