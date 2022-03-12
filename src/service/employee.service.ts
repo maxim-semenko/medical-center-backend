@@ -14,14 +14,8 @@ export class EmployeeService {
     }
 
     async findAllEmployeeUser(employeeId: number): Promise<UserEntity[]> {
-        const userIds: any[] = await this.appointmentRepository
-            .query("SELECT DISTINCT user_id FROM appointment WHERE employee_id = $1", [1]);
-        console.log(userIds);
-        return this.userRepository.find({
-            where: {
-                // id: userIds,
-            }
-        })
+        return await this.appointmentRepository
+            .query("SELECT DISTINCT * FROM medical_centre.public.user LEFT JOIN appointment ON appointment.user_id = medical_centre.public.user.id WHERE appointment.employee_id = $1", [1])
     }
 
     findById(id: number): Promise<EmployeeEntity> {
