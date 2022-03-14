@@ -16,7 +16,7 @@ export class AppointmentService {
     findAllUserAppointment(userId: number): Promise<AppointmentEntity[]> {
         return this.appointmentRepository.find({
             where: {
-                user: userId,
+                userEntity: userId,
             },
             relations: ["userEntity", "employee"]
         });
