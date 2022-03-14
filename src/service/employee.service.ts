@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {getRepository, Repository} from "typeorm";
 import {EmployeeEntity} from "../entity/employee.entity";
 import {AppointmentEntity} from "../entity/appointment.entity";
 import {UserEntity} from "../entity/user.entity";
@@ -14,8 +14,9 @@ export class EmployeeService {
     }
 
     async findAllEmployeeUser(employeeId: number): Promise<UserEntity[]> {
-        return await this.appointmentRepository
-            .query("SELECT DISTINCT * FROM medical_centre.public.user LEFT JOIN appointment ON appointment.user_id = medical_centre.public.user.id WHERE appointment.employee_id = $1", [1])
+        return await getRepository(UserEntity).createQueryBuilder("user").leftJoinAndSelect("user.vaccine", "users")
+            .leftJoin("user.appointments", "userEntity")
+            .where("employee_id = :id", {id: employeeId}).getMany();
     }
 
     findById(id: number): Promise<EmployeeEntity> {

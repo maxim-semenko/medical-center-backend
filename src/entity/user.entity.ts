@@ -26,14 +26,18 @@ export class UserEntity {
     @Column("smallint", {name: "role_id"})
     roleId: number;
 
-    @OneToMany(() => AppointmentEntity, (appointment) => appointment.user, {
+    @OneToMany(() => AppointmentEntity, (appointment) => appointment.userEntity, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
     appointments: AppointmentEntity[];
 
-    @ManyToMany(() => VaccineEntity, vaccine => vaccine.vaccineId)
-    @JoinTable()
+    @ManyToMany(() => VaccineEntity, vaccine => vaccine.id, {cascade: true})
+    @JoinTable({
+        name: 'user_vaccine',
+        joinColumn: {name: 'user_id', referencedColumnName: 'id'},
+        inverseJoinColumn: {name: 'vaccine_id', referencedColumnName: 'id'},
+    })
     vaccine: VaccineEntity[];
 
     @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.user, {
