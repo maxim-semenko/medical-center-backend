@@ -37,7 +37,7 @@ export class AppointmentEntity {
         onUpdate: "CASCADE",
     })
     @JoinColumn([{name: "user_id", referencedColumnName: "id"}])
-    user: UserEntity;
+    userEntity: UserEntity;
 
     @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.appointment)
     medicalCards: MedicalCardEntity[];
