@@ -10,7 +10,7 @@ export class AppointmentService {
     }
 
     findById(id: number): Promise<AppointmentEntity> {
-        return this.appointmentRepository.findOne(id, {relations: ["user", "employee"]});
+        return this.appointmentRepository.findOne(id, {relations: ["userEntity", "employee"]});
     }
 
     findAllUserAppointment(userId: number): Promise<AppointmentEntity[]> {
@@ -18,7 +18,7 @@ export class AppointmentService {
             where: {
                 user: userId,
             },
-            relations: ["user", "employee"]
+            relations: ["userEntity", "employee"]
         });
     }
 
@@ -26,9 +26,9 @@ export class AppointmentService {
         return this.appointmentRepository.find({
             where: {
                 employee: employeeId,
-                user: userId,
+                userEntity: userId,
             },
-            relations: ["user", "employee"]
+            relations: ["userEntity", "employee"]
         });
     }
 
@@ -38,12 +38,12 @@ export class AppointmentService {
             where: {
                 employee: employeeId
             },
-            relations: ["user", "employee"]
+            relations: ["userEntity", "employee"]
         });
     }
 
     findAll(): Promise<AppointmentEntity[]> {
-        return this.appointmentRepository.find({relations: ["user", "employee"]});
+        return this.appointmentRepository.find({relations: ["userEntity", "employee"]});
     }
 
     create(appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {

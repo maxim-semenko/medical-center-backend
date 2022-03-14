@@ -23,17 +23,17 @@ export class MedicalCardService {
             where: {
                 employee: employeeId,
             },
-            relations: ["employee", "user", "disease"]
+            relations: ["employee", "userEntity", "disease"]
         });
     }
 
     findById(id: number): Promise<MedicalCardEntity> {
         return this.medicalCardRepository.findOne(id,
-            {relations: ["disease", "appointment", "appointment.user", "appointment.employee", "user", "employee"]});
+            {relations: ["disease", "appointment", "appointment.user", "appointment.employee", "userEntity", "employee"]});
     }
 
     findAll(): Promise<MedicalCardEntity[]> {
-        return this.medicalCardRepository.find({relations: ["disease", "appointment", "user"]});
+        return this.medicalCardRepository.find({relations: ["disease", "appointment", "userEntity"]});
     }
 
     create(medicalCardEntity: MedicalCardEntity): Promise<MedicalCardEntity> {
