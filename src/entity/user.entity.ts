@@ -32,12 +32,12 @@ export class UserEntity {
     })
     appointments: AppointmentEntity[];
 
-    @ManyToMany(() => VaccineEntity, vaccine => vaccine.id, {cascade: true})
-    @JoinTable({
-        name: 'user_vaccine',
-        joinColumn: {name: 'user_id', referencedColumnName: 'id'},
-        inverseJoinColumn: {name: 'vaccine_id', referencedColumnName: 'id'},
+    @ManyToMany(() => VaccineEntity, {
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
+    @JoinTable({name: 'user_vaccine'})
     vaccine: VaccineEntity[];
 
     @OneToMany(() => MedicalCardEntity, (medicalCard) => medicalCard.user, {

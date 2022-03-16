@@ -11,12 +11,4 @@ export class VaccineEntity {
 
     @Column("character varying", {name: "description", length: 200, nullable: true})
     description: string;
-
-    @ManyToMany(() => UserEntity, user => user.id, {cascade: true})
-    @JoinTable({
-        name: 'user_vaccine',
-        joinColumn: {name: 'vaccine_id', referencedColumnName: 'id'},
-        inverseJoinColumn: {name: 'user_id', referencedColumnName: 'id'},
-    })
-    users: UserEntity[];
 }
