@@ -1,4 +1,17 @@
-import {Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, StreamableFile,} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Header,
+    HttpCode,
+    Param,
+    Post,
+    Put,
+    StreamableFile,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
 import {EmployeeService} from '../service/employee.service';
 import {EmployeeEntity} from "../entity/employee.entity";
 import {UserEntity} from "../entity/user.entity";
@@ -33,11 +46,13 @@ export class EmployeeController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
         return this.employeeService.create(employeeEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
         return this.employeeService.update(id, employeeEntity);
     }
@@ -111,7 +126,7 @@ export class EmployeeController {
 
     @Get('/test/report-pdf')
     @Header('Content-Type', 'application/pdf')
-    async getReportPDF() : Promise<StreamableFile> {
+    async getReportPDF(): Promise<StreamableFile> {
         const json = await this.employeeService.findAll()
 
         const pdf = require('pdf-creator-node');
@@ -153,7 +168,6 @@ export class EmployeeController {
 
         return new StreamableFile(buffer);
     }
-
 
 
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {UserService} from '../service/user.service';
 import {UserEntity} from "../entity/user.entity";
 
@@ -19,11 +19,13 @@ export class UserController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() userEntity: UserEntity): Promise<UserEntity> {
         return this.userService.create(userEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() userEntity: UserEntity): Promise<UserEntity> {
         return this.userService.update(id, userEntity);
     }

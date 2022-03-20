@@ -10,11 +10,11 @@ export class UserService {
     }
 
     findById(id: number): Promise<UserEntity> {
-        return this.userRepository.findOne(id, {  relations: ["vaccine"]});
+        return this.userRepository.findOne(id, {relations: ["vaccine"]});
     }
 
     findAll(): Promise<UserEntity[]> {
-        return this.userRepository.find({  relations: ["vaccine"]});
+        return this.userRepository.find({relations: ["vaccine"]});
     }
 
     create(userEntity: UserEntity): Promise<UserEntity> {

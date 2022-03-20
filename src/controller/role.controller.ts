@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {RoleService} from '../service/role.service';
 import {RoleEntity} from "../entity/role.entity";
 
@@ -19,11 +19,13 @@ export class RoleController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() roleEntity: RoleEntity): Promise<RoleEntity> {
         return this.roleService.create(roleEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() roleEntity: RoleEntity): Promise<RoleEntity> {
         return this.roleService.update(id, roleEntity);
     }
