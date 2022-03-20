@@ -1,4 +1,4 @@
-import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
 import {UserEntity} from "./user.entity";
 import {MaxLength, MinLength, ValidateNested} from "class-validator";
 
@@ -17,11 +17,6 @@ export class VaccineEntity {
     description: string;
 
     @ManyToMany(() => UserEntity, user => user.id, {cascade: true})
-    @JoinTable({
-        name: 'user_vaccine',
-        joinColumn: {name: 'vaccine_id', referencedColumnName: 'id'},
-        inverseJoinColumn: {name: 'user_id', referencedColumnName: 'id'},
-    })
     @ValidateNested()
     users: UserEntity[];
 

@@ -10,11 +10,11 @@ export class UserService {
     }
 
     findById(id: number): Promise<UserEntity> {
-        return this.userRepository.findOne(id, {relations: ["user_access"]});
+        return this.userRepository.findOne(id, {relations: ["vaccine"]});
     }
 
     findAll(): Promise<UserEntity[]> {
-        return this.userRepository.find();
+        return this.userRepository.find({relations: ["vaccine"]});
     }
 
     create(userEntity: UserEntity): Promise<UserEntity> {
@@ -22,7 +22,7 @@ export class UserService {
     }
 
     update(id: number, userEntity: UserEntity): Promise<UserEntity> {
-        return this.userRepository.update(id, userEntity).then(x => this.findById(id));
+        return this.userRepository.save(userEntity).then(x => this.findById(id));
     }
 
     deleteById(id: number): void {
