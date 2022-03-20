@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {DiseaseService} from '../service/disease.service';
 import {DiseaseEntity} from "../entity/disease.entity";
 
@@ -19,11 +19,13 @@ export class DiseaseController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() diseaseEntity: DiseaseEntity): Promise<DiseaseEntity> {
         return this.diseaseService.create(diseaseEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() diseaseEntity: DiseaseEntity): Promise<DiseaseEntity> {
         return this.diseaseService.update(id, diseaseEntity);
     }

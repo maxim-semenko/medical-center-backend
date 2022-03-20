@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {AppointmentService} from '../service/appointment.service';
 import {AppointmentEntity} from "../entity/appointment.entity";
 
@@ -36,11 +36,13 @@ export class AppointmentController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {
         return this.appointmentService.create(appointmentEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() appointmentEntity: AppointmentEntity): Promise<AppointmentEntity> {
         return this.appointmentService.update(id, appointmentEntity);
     }
@@ -49,5 +51,6 @@ export class AppointmentController {
     delete(@Param("id") id: number): void {
         this.appointmentService.deleteById(id);
     }
+
 }
 

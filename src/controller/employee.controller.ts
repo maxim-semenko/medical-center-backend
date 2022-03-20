@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UsePipes, ValidationPipe} from '@nestjs/common';
 import {EmployeeService} from '../service/employee.service';
 import {EmployeeEntity} from "../entity/employee.entity";
 import {UserEntity} from "../entity/user.entity";
@@ -25,11 +25,13 @@ export class EmployeeController {
 
     @Post('')
     @HttpCode(201)
+    @UsePipes(new ValidationPipe())
     create(@Body() employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
         return this.employeeService.create(employeeEntity);
     }
 
     @Put('/:id')
+    @UsePipes(new ValidationPipe())
     update(@Param("id") id: number, @Body() employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
         return this.employeeService.update(id, employeeEntity);
     }
