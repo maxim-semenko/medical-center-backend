@@ -6,6 +6,7 @@ import {UserEntity} from "../entity/user.entity";
 
 describe('UserController', () => {
     let userController: UserController;
+    let userEntity: UserEntity;
 
     beforeEach(async () => {
         const app: TestingModule = await Test.createTestingModule({
@@ -19,15 +20,23 @@ describe('UserController', () => {
         userController = app.get<UserController>(UserController);
     });
 
-    // describe('root', () => {
-    //     it('should return "update user by id = 1"', () => {
-    //         expect(userController.update(1)).toBe('update user by id = 1');
-    //     });
-    // });
+        it('should return "update user by id = 1"', () => {
+             expect(userController.update(1,userEntity)).toBe('update user by id = 1');
+         });
 
-    // describe('root', () => {
-    //     it('should return "find user by id"', () => {
-    //         expect(userController.findById()).toBe('find user by id');
-    //     });
-    // });
+         it('should create a user', () => {
+        expect(userController.create(userEntity))
+     });
+
+     it('should find all(not null)', () => {
+        expect(userController.findAll())
+     });
+
+     it('should find all', () => {
+        expect(userController.findById(1))
+     });
+
+     it('should find all', () => {
+        expect(userController.delete(4))
+     });
 });
