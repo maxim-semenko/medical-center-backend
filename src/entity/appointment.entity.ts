@@ -8,18 +8,18 @@ import {MedicalCardEntity} from "./medicalCard.entity";
 export class AppointmentEntity {
 
     @PrimaryGeneratedColumn({type: "integer", name: "id"})
-    @IsInt({message: "Id is not correct"})
+    // @IsInt({message: "Id is not correct"})
     id: number;
 
     @Column('timestamp without time zone', {
         name: 'start_date',
         nullable: true,
     })
-    @IsDate({message: "Start date is incorrect"})
+    // @IsDate({message: "Start date is incorrect"})
     startDate: Timestamp;
 
     @Column("timestamp without time zone", {name: "end_date"})
-    @IsDate({message: "End date is incorrect"})
+    // @IsDate({message: "End date is incorrect"})
     endDate: Timestamp;
 
     @Column("character varying", {

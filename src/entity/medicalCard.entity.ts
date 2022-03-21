@@ -11,11 +11,11 @@ export class MedicalCardEntity {
     id: number;
 
     @Column("timestamp without time zone", {name: "start_date"})
-    @IsDate({message: "Start date is not correct"})
+    // @IsDate({message: "Start date is not correct"})
     startDate: Timestamp;
 
     @Column("timestamp without time zone", {name: "end_date"})
-    @IsDate({message: "End date is not correct"})
+    // @IsDate({message: "End date is not correct"})
     endDate: Timestamp;
 
     @Column("character varying", {
@@ -35,7 +35,7 @@ export class MedicalCardEntity {
     isConfirmation: boolean;
 
     @Column("integer", {name: "disease_id"})
-    @IsInt({message: "Disease id is not number"})
+    // @IsInt({message: "Disease id is not number"})
     diseaseId: number | null;
 
     @ManyToOne(() => DiseaseEntity, (disease) => disease.medicalCards, {

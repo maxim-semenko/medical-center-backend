@@ -4,7 +4,6 @@ import {IsInt, MaxLength, MinLength} from "class-validator";
 @Entity("role", {schema: "public"})
 export class RoleEntity {
     @PrimaryGeneratedColumn({type: "smallint", name: "id"})
-    @IsInt()
     id: number;
 
     @Column("character varying", {name: "name", length: 30})

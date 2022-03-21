@@ -4,7 +4,6 @@ import {IsEmail, IsNumber, MaxLength, MinLength} from "class-validator";
 @Entity("user_access", {schema: "public"})
 export class UserAccessEntity {
     @Column("integer", {primary: true, name: "user_id"})
-    @IsNumber()
     userId: number;
 
     @Column("character varying", {name: "email", length: 50, unique: true})
