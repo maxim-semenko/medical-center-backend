@@ -42,7 +42,7 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.findAllUserAppointment(1)).toBe(undefined);
+        expect(await appointmentService.findAllUserAppointment(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all employee appointment/`, async () => {
@@ -57,7 +57,7 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.findAllEmployeeAppointment(1)).toBe(undefined);
+        expect(await appointmentService.findAllEmployeeAppointment(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all user appointment to employee/`, async () => {
@@ -72,12 +72,12 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.findAllUserAppointmentToEmployee(1, 2)).toBe(undefined);
+        expect(await appointmentService.findAllUserAppointmentToEmployee(1, 2)).toStrictEqual(undefined);
     });
 
     it('/Delete appointment/1', async () => {
         jest.spyOn(appointmentService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(appointmentController.delete(1)).toBe(undefined);
+        expect(appointmentService.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all appointment/`, async () => {
@@ -92,7 +92,7 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.findAll()).toBe(appointment);
+        expect(await appointmentService.findAll()).toStrictEqual(appointment);
     });
 
     it(`/should update appointment/`, async () => {
@@ -102,7 +102,7 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'update').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.update(1, appointment)).toBe(appointment);
+        expect(await appointmentService.update(1, appointment)).toStrictEqual(appointment);
     });
 
     it(`/should create appointment/`, async () => {
@@ -112,7 +112,7 @@ describe('AppointmentEntity', () => {
         jest.spyOn(appointmentService, 'create').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentController.create(appointment)).toBe(appointment);
+        expect(await appointmentService.create(appointment)).toStrictEqual(appointment);
     });
 
 
