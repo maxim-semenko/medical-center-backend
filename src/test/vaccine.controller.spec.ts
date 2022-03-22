@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { VaccineEntity } from '../entity/vaccine.entity';
-import { VaccineController } from '../controller/vaccine.controller';
-import { VaccineService } from '../service/vaccine.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {VaccineEntity} from '../entity/vaccine.entity';
+import {VaccineController} from '../controller/vaccine.controller';
+import {VaccineService} from '../service/vaccine.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('VaccineEntity', () => {
     let vaccineController: VaccineController;
@@ -28,6 +28,10 @@ describe('VaccineEntity', () => {
 
     it('should be defined', () => {
         expect(vaccineController).toBeDefined();
+    });
+
+    it('should be defined', () => {
+        expect(vaccineService).toBeDefined();
     });
 
     it('/Delete vaccine/1', async () => {

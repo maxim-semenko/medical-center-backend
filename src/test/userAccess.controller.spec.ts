@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserAccessEntity } from '../entity/userAccess.entity';
-import { UserAccessController } from '../controller/userAccess.controller';
-import { UserAccessService } from '../service/userAccess.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {UserAccessEntity} from '../entity/userAccess.entity';
+import {UserAccessController} from '../controller/userAccess.controller';
+import {UserAccessService} from '../service/userAccess.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('UserAccessEntity', () => {
     let userAccessController: UserAccessController;
@@ -69,8 +69,6 @@ describe('UserAccessEntity', () => {
         });
         expect(await userAccessController.create(userAccess)).toBe(userAccess);
     });
-
-
 
     it('should find by id = 1', async () => {
         const userAccess: UserAccessEntity = new UserAccessEntity();

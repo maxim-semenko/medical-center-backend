@@ -1,24 +1,37 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EmployeeEntity } from '../entity/employee.entity';
-import { EmployeeController } from '../controller/employee.controller';
-import { EmployeeService } from '../service/employee.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {EmployeeEntity} from '../entity/employee.entity';
+import {EmployeeController} from '../controller/employee.controller';
+import {EmployeeService} from '../service/employee.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
+import {UserEntity} from "../entity/user.entity";
+import {AppointmentEntity} from "../entity/appointment.entity";
 
-describe('EmployeeEntity', () => {
+describe('EmployeeService', () => {
     let employeeController: EmployeeController;
     let employeeService: EmployeeService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             controllers: [EmployeeController],
-            providers: [
-                EmployeeService, {
-                    provide: getRepositoryToken(EmployeeEntity),
-                    useValue: {
+            providers: [EmployeeService,
+                {
+                    provide: getRepositoryToken(AppointmentEntity), useValue: {
                         find: jest.fn(),
                         insert: jest.fn(),
                     },
-                }
+                },
+                {
+                    provide: getRepositoryToken(UserEntity), useValue: {
+                        find: jest.fn(),
+                        insert: jest.fn(),
+                    },
+                },
+                {
+                    provide: getRepositoryToken(EmployeeEntity), useValue: {
+                        find: jest.fn(),
+                        insert: jest.fn(),
+                    },
+                },
             ],
         }).compile();
 
@@ -28,6 +41,10 @@ describe('EmployeeEntity', () => {
 
     it('should be defined', () => {
         expect(employeeController).toBeDefined();
+    });
+
+    it('should be defined', () => {
+        expect(employeeService).toBeDefined();
     });
 
     it('/Delete employee/1', async () => {

@@ -1,16 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { DiseaseEntity } from '../entity/disease.entity';
-import { DiseaseController } from '../controller/disease.controller';
-import { DiseaseService } from '../service/disease.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {DiseaseEntity} from '../entity/disease.entity';
+import {DiseaseService} from '../service/disease.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('DiseaseEntity', () => {
-    let diseaseController: DiseaseController;
     let diseaseService: DiseaseService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            controllers: [DiseaseController],
             providers: [
                 DiseaseService, {
                     provide: getRepositoryToken(DiseaseEntity),
@@ -22,12 +19,11 @@ describe('DiseaseEntity', () => {
             ],
         }).compile();
 
-        diseaseController = module.get<DiseaseController>(DiseaseController);
         diseaseService = module.get<DiseaseService>(DiseaseService);
     });
 
     it('should be defined', () => {
-        expect(diseaseController).toBeDefined();
+        expect(diseaseService).toBeDefined();
     });
 
     it('/Delete disease/1', async () => {

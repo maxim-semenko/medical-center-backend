@@ -1,9 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MedicalCardEntity } from '../entity/medicalCard.entity';
-import { MedicalCardController } from '../controller/medicalCard.controller';
-import { MedicalCardService } from '../service/medicalCard.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { entityName } from 'typeorm-model-generator/dist/src/NamingStrategy';
+import {Test, TestingModule} from '@nestjs/testing';
+import {MedicalCardEntity} from '../entity/medicalCard.entity';
+import {MedicalCardController} from '../controller/medicalCard.controller';
+import {MedicalCardService} from '../service/medicalCard.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('MedicalCardEntity', () => {
     let medicalCardController: MedicalCardController;
@@ -29,6 +28,10 @@ describe('MedicalCardEntity', () => {
 
     it('should be defined', () => {
         expect(medicalCardController).toBeDefined();
+    });
+
+    it('should be defined', () => {
+        expect(medicalCardService).toBeDefined();
     });
 
 
@@ -101,7 +104,6 @@ describe('MedicalCardEntity', () => {
         });
         expect(await medicalCardController.create(medicalCard)).toBe(medicalCard);
     });
-
 
 
     it('should find by id = 1', async () => {

@@ -1,10 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppointmentEntity } from '../entity/appointment.entity';
-import { AppointmentController } from '../controller/appointment.controller';
-import { AppointmentService } from '../service/appointment.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {AppointmentEntity} from '../entity/appointment.entity';
+import {AppointmentController} from '../controller/appointment.controller';
+import {AppointmentService} from '../service/appointment.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
-describe('AppointmentEntity', () => {
+describe('AppointmentService', () => {
     let appointmentController: AppointmentController;
     let appointmentService: AppointmentService;
 
@@ -27,7 +27,7 @@ describe('AppointmentEntity', () => {
     });
 
     it('should be defined', () => {
-        expect(appointmentController).toBeDefined();
+        expect(appointmentService).toBeDefined();
     });
 
     it(`/should find all user appointment/`, async () => {

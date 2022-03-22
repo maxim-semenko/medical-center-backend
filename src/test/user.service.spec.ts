@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserEntity } from '../entity/user.entity';
-import { UserController } from '../controller/user.controller';
-import { UserService } from '../service/user.service';
-import { getRepositoryToken } from "@nestjs/typeorm";
+import {Test, TestingModule} from '@nestjs/testing';
+import {UserEntity} from '../entity/user.entity';
+import {UserController} from '../controller/user.controller';
+import {UserService} from '../service/user.service';
+import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('UserEntity', () => {
     let userController: UserController;
@@ -27,7 +27,7 @@ describe('UserEntity', () => {
     });
 
     it('should be defined', () => {
-        expect(userController).toBeDefined();
+        expect(userService).toBeDefined();
     });
 
     it('/Delete user/1', async () => {
@@ -71,7 +71,6 @@ describe('UserEntity', () => {
         });
         expect(await userController.create(user)).toStrictEqual(user);
     });
-
 
 
     it('should find by id = 1', async () => {
