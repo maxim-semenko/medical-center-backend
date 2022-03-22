@@ -5,8 +5,8 @@ import {UserService} from '../service/user.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('UserEntity', () => {
-    let userController: UserController;
-    let userService: UserService;
+    let controller: UserController;
+    let service: UserService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,21 +22,21 @@ describe('UserEntity', () => {
             ],
         }).compile();
 
-        userController = module.get<UserController>(UserController);
-        userService = module.get<UserService>(UserService);
+        controller = module.get<UserController>(UserController);
+        service = module.get<UserService>(UserService);
     });
 
     it('should be defined', () => {
-        expect(userController).toBeDefined();
+        expect(controller).toBeDefined();
     });
 
     it('should be defined', () => {
-        expect(userService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete user/1', async () => {
-        jest.spyOn(userService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(userController.delete(1)).toBe(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(controller.delete(1)).toBe(undefined);
     });
 
     it(`/should find all user/`, async () => {
@@ -50,30 +50,30 @@ describe('UserEntity', () => {
         user_2.firstname = "test_firstname";
         let user: Array<UserEntity>;
         user = [user_1, user_2];
-        jest.spyOn(userService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.findAll()).toBe(user);
+        expect(await controller.findAll()).toBe(user);
     });
 
     it(`/should update user/`, async () => {
         const user: UserEntity = new UserEntity();
         user.id = 1;
         user.lastname = "test_lastname";
-        jest.spyOn(userService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.update(1, user)).toBe(user);
+        expect(await controller.update(1, user)).toBe(user);
     });
 
     it(`/should create user/`, async () => {
         const user: UserEntity = new UserEntity();
         user.id = 1;
         user.lastname = "test_lastname";
-        jest.spyOn(userService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.create(user)).toBe(user);
+        expect(await controller.create(user)).toBe(user);
     });
 
 
@@ -82,8 +82,8 @@ describe('UserEntity', () => {
         user.id = 1;
         user.lastname = "test_lastname";
         user.firstname = "test_firstname";
-        jest.spyOn(userService, 'findById').mockImplementation(async () => user);
-        expect(await userService.findById(1)).toBe(user);
+        jest.spyOn(service, 'findById').mockImplementation(async () => user);
+        expect(await controller.findById(1)).toBe(user);
     });
 
 

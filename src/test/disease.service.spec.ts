@@ -4,7 +4,7 @@ import {DiseaseService} from '../service/disease.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('DiseaseEntity', () => {
-    let diseaseService: DiseaseService;
+    let service: DiseaseService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -19,16 +19,16 @@ describe('DiseaseEntity', () => {
             ],
         }).compile();
 
-        diseaseService = module.get<DiseaseService>(DiseaseService);
+        service = module.get<DiseaseService>(DiseaseService);
     });
 
     it('should be defined', () => {
-        expect(diseaseService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete disease/1', async () => {
-        jest.spyOn(diseaseService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(diseaseService.deleteById(1)).toStrictEqual(Promise.resolve());
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all disease/`, async () => {
@@ -38,37 +38,37 @@ describe('DiseaseEntity', () => {
         disease_2.description = "test_description_1";
         let disease: Array<DiseaseEntity>;
         disease = [disease_1, disease_2];
-        jest.spyOn(diseaseService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseService.findAll()).toStrictEqual(disease);
+        expect(await service.findAll()).toStrictEqual(disease);
     });
 
     it(`/should update disease/`, async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.diseaseId = 1;
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseService.update(1, disease)).toStrictEqual(disease);
+        expect(await service.update(1, disease)).toStrictEqual(disease);
     });
 
     it(`/should create disease/`, async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.diseaseId = 1;
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseService.create(disease)).toStrictEqual(disease);
+        expect(await service.create(disease)).toStrictEqual(disease);
     });
 
     it('should find by id = 1', async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'findById').mockImplementation(async () => disease);
-        expect(await diseaseService.findById(1)).toStrictEqual(disease);
+        jest.spyOn(service, 'findById').mockImplementation(async () => disease);
+        expect(await service.findById(1)).toStrictEqual(disease);
     });
 
 

@@ -5,8 +5,7 @@ import {UserService} from '../service/user.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('UserEntity', () => {
-    let userController: UserController;
-    let userService: UserService;
+    let service: UserService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,17 +21,17 @@ describe('UserEntity', () => {
             ],
         }).compile();
 
-        userController = module.get<UserController>(UserController);
-        userService = module.get<UserService>(UserService);
+       
+        service = module.get<UserService>(UserService);
     });
 
     it('should be defined', () => {
-        expect(userService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete user/1', async () => {
-        jest.spyOn(userService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(userController.delete(1)).toStrictEqual(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all user/`, async () => {
@@ -46,30 +45,30 @@ describe('UserEntity', () => {
         user_2.firstname = "test_firstname";
         let user: Array<UserEntity>;
         user = [user_1, user_2];
-        jest.spyOn(userService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.findAll()).toStrictEqual(user);
+        expect(await service.findAll()).toStrictEqual(user);
     });
 
     it(`/should update user/`, async () => {
         const user: UserEntity = new UserEntity();
         user.id = 1;
         user.lastname = "test_lastname";
-        jest.spyOn(userService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.update(1, user)).toStrictEqual(user);
+        expect(await service.update(1, user)).toStrictEqual(user);
     });
 
     it(`/should create user/`, async () => {
         const user: UserEntity = new UserEntity();
         user.id = 1;
         user.lastname = "test_lastname";
-        jest.spyOn(userService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.create(user)).toStrictEqual(user);
+        expect(await service.create(user)).toStrictEqual(user);
     });
 
 
@@ -78,8 +77,8 @@ describe('UserEntity', () => {
         user.id = 1;
         user.lastname = "test_lastname";
         user.firstname = "test_firstname";
-        jest.spyOn(userService, 'findById').mockImplementation(async () => user);
-        expect(await userService.findById(1)).toStrictEqual(user);
+        jest.spyOn(service, 'findById').mockImplementation(async () => user);
+        expect(await service.findById(1)).toStrictEqual(user);
     });
 
 

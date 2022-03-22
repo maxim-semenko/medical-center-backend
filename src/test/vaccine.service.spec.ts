@@ -5,8 +5,7 @@ import {VaccineService} from '../service/vaccine.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('VaccineEntity', () => {
-    let vaccineController: VaccineController;
-    let vaccineService: VaccineService;
+    let service: VaccineService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,17 +21,16 @@ describe('VaccineEntity', () => {
             ],
         }).compile();
 
-        vaccineController = module.get<VaccineController>(VaccineController);
-        vaccineService = module.get<VaccineService>(VaccineService);
+        service = module.get<VaccineService>(VaccineService);
     });
 
     it('should be defined', () => {
-        expect(vaccineService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete vaccine/1', async () => {
-        jest.spyOn(vaccineService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(vaccineController.delete(1)).toStrictEqual(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all vaccine/`, async () => {
@@ -44,38 +42,38 @@ describe('VaccineEntity', () => {
         vaccine_2.description = "test_description";
         let vaccine: Array<VaccineEntity>;
         vaccine = [vaccine_1, vaccine_2];
-        jest.spyOn(vaccineService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.findAll()).toStrictEqual(vaccine);
+        expect(await service.findAll()).toStrictEqual(vaccine);
     });
 
     it(`/should update vaccine/`, async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.update(1, vaccine)).toStrictEqual(vaccine);
+        expect(await service.update(1, vaccine)).toStrictEqual(vaccine);
     });
 
     it(`/should create vaccine/`, async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.create(vaccine)).toStrictEqual(vaccine);
+        expect(await service.create(vaccine)).toStrictEqual(vaccine);
     });
 
     it('should find by id = 1', async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'findById').mockImplementation(async () => vaccine);
-        expect(await vaccineService.findById(1)).toStrictEqual(vaccine);
+        jest.spyOn(service, 'findById').mockImplementation(async () => vaccine);
+        expect(await service.findById(1)).toStrictEqual(vaccine);
     });
 
 });

@@ -5,8 +5,7 @@ import {AppointmentService} from '../service/appointment.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('AppointmentService', () => {
-    let appointmentController: AppointmentController;
-    let appointmentService: AppointmentService;
+    let service: AppointmentService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,12 +21,11 @@ describe('AppointmentService', () => {
             ],
         }).compile();
 
-        appointmentController = module.get<AppointmentController>(AppointmentController);
-        appointmentService = module.get<AppointmentService>(AppointmentService);
+        service = module.get<AppointmentService>(AppointmentService);
     });
 
     it('should be defined', () => {
-        expect(appointmentService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it(`/should find all user appointment/`, async () => {
@@ -39,10 +37,10 @@ describe('AppointmentService', () => {
         appointment_2.description = "test_description_1";
         let appointment: Array<AppointmentEntity>;
         appointment = [appointment_1, appointment_2];
-        jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.findAllUserAppointment(1)).toStrictEqual(undefined);
+        expect(await service.findAllUserAppointment(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all employee appointment/`, async () => {
@@ -54,10 +52,10 @@ describe('AppointmentService', () => {
         appointment_2.description = "test_description_1";
         let appointment: Array<AppointmentEntity>;
         appointment = [appointment_1, appointment_2];
-        jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.findAllEmployeeAppointment(1)).toStrictEqual(undefined);
+        expect(await service.findAllEmployeeAppointment(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all user appointment to employee/`, async () => {
@@ -69,15 +67,15 @@ describe('AppointmentService', () => {
         appointment_2.description = "test_description_1";
         let appointment: Array<AppointmentEntity>;
         appointment = [appointment_1, appointment_2];
-        jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.findAllUserAppointmentToEmployee(1, 2)).toStrictEqual(undefined);
+        expect(await service.findAllUserAppointmentToEmployee(1, 2)).toStrictEqual(undefined);
     });
 
     it('/Delete appointment/1', async () => {
-        jest.spyOn(appointmentService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(appointmentService.deleteById(1)).toStrictEqual(Promise.resolve());
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all appointment/`, async () => {
@@ -89,30 +87,30 @@ describe('AppointmentService', () => {
         appointment_2.description = "test_description_1";
         let appointment: Array<AppointmentEntity>;
         appointment = [appointment_1, appointment_2];
-        jest.spyOn(appointmentService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.findAll()).toStrictEqual(appointment);
+        expect(await service.findAll()).toStrictEqual(appointment);
     });
 
     it(`/should update appointment/`, async () => {
         const appointment: AppointmentEntity = new AppointmentEntity();
         appointment.id = 1;
         appointment.description = "test_description";
-        jest.spyOn(appointmentService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.update(1, appointment)).toStrictEqual(appointment);
+        expect(await service.update(1, appointment)).toStrictEqual(appointment);
     });
 
     it(`/should create appointment/`, async () => {
         const appointment: AppointmentEntity = new AppointmentEntity();
         appointment.id = 1;
         appointment.description = "test_description";
-        jest.spyOn(appointmentService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(appointment);
         });
-        expect(await appointmentService.create(appointment)).toStrictEqual(appointment);
+        expect(await service.create(appointment)).toStrictEqual(appointment);
     });
 
 
@@ -120,8 +118,8 @@ describe('AppointmentService', () => {
         const appointment: AppointmentEntity = new AppointmentEntity();
         appointment.id = 1;
         appointment.description = "test_description";
-        jest.spyOn(appointmentService, 'findById').mockImplementation(async () => appointment);
-        expect(await appointmentService.findById(1)).toBe(appointment);
+        jest.spyOn(service, 'findById').mockImplementation(async () => appointment);
+        expect(await service.findById(1)).toBe(appointment);
     });
 
 });

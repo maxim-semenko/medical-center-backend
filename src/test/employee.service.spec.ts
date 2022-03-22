@@ -7,8 +7,8 @@ import {UserEntity} from "../entity/user.entity";
 import {AppointmentEntity} from "../entity/appointment.entity";
 
 describe('EmployeeService', () => {
-    let employeeController: EmployeeController;
-    let employeeService: EmployeeService;
+
+    let service: EmployeeService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -35,21 +35,20 @@ describe('EmployeeService', () => {
             ],
         }).compile();
 
-        employeeController = module.get<EmployeeController>(EmployeeController);
-        employeeService = module.get<EmployeeService>(EmployeeService);
+        service = module.get<EmployeeService>(EmployeeService);
     });
 
     it('should be defined', () => {
-        expect(employeeController).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('should be defined', () => {
-        expect(employeeService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete employee/1', async () => {
-        jest.spyOn(employeeService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(employeeController.delete(1)).toBe(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all employee/`, async () => {
@@ -61,38 +60,38 @@ describe('EmployeeService', () => {
         employee_2.firstname = "test_firstname";
         let employee: Array<EmployeeEntity>;
         employee = [employee_1, employee_2];
-        jest.spyOn(employeeService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(employee);
         });
-        expect(await employeeController.findAll()).toBe(employee);
+        expect(await service.findAll()).toStrictEqual(employee);
     });
 
     it(`/should update employee/`, async () => {
         const employee: EmployeeEntity = new EmployeeEntity();
         employee.id = 1;
         employee.firstname = "test_firstname";
-        jest.spyOn(employeeService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(employee);
         });
-        expect(await employeeController.update(1, employee)).toBe(employee);
+        expect(await service.update(1, employee)).toStrictEqual(employee);
     });
 
     it(`/should create employee/`, async () => {
         const employee: EmployeeEntity = new EmployeeEntity();
         employee.id = 1;
         employee.firstname = "test_firstname";
-        jest.spyOn(employeeService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(employee);
         });
-        expect(await employeeController.create(employee)).toBe(employee);
+        expect(await service.create(employee)).toStrictEqual(employee);
     });
 
     it('should find by id = 1', async () => {
         const employee: EmployeeEntity = new EmployeeEntity();
         employee.id = 1;
         employee.firstname = "test_firstname";
-        jest.spyOn(employeeService, 'findById').mockImplementation(async () => employee);
-        expect(await employeeService.findById(1)).toBe(employee);
+        jest.spyOn(service, 'findById').mockImplementation(async () => employee);
+        expect(await service.findById(1)).toStrictEqual(employee);
     });
 
 });
