@@ -5,8 +5,8 @@ import {VaccineService} from '../service/vaccine.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('VaccineEntity', () => {
-    let vaccineController: VaccineController;
-    let vaccineService: VaccineService;
+    let controller: VaccineController;
+    let service: VaccineService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,21 +22,21 @@ describe('VaccineEntity', () => {
             ],
         }).compile();
 
-        vaccineController = module.get<VaccineController>(VaccineController);
-        vaccineService = module.get<VaccineService>(VaccineService);
+        controller = module.get<VaccineController>(VaccineController);
+        service = module.get<VaccineService>(VaccineService);
     });
 
     it('should be defined', () => {
-        expect(vaccineController).toBeDefined();
+        expect(controller).toBeDefined();
     });
 
     it('should be defined', () => {
-        expect(vaccineService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete vaccine/1', async () => {
-        jest.spyOn(vaccineService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(vaccineController.delete(1)).toBe(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(controller.delete(1)).toBe(undefined);
     });
 
     it(`/should find all vaccine/`, async () => {
@@ -48,38 +48,38 @@ describe('VaccineEntity', () => {
         vaccine_2.description = "test_description";
         let vaccine: Array<VaccineEntity>;
         vaccine = [vaccine_1, vaccine_2];
-        jest.spyOn(vaccineService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.findAll()).toBe(vaccine);
+        expect(await controller.findAll()).toBe(vaccine);
     });
 
     it(`/should update vaccine/`, async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.update(1, vaccine)).toBe(vaccine);
+        expect(await controller.update(1, vaccine)).toBe(vaccine);
     });
 
     it(`/should create vaccine/`, async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.create(vaccine)).toBe(vaccine);
+        expect(await controller.create(vaccine)).toBe(vaccine);
     });
 
     it('should find by id = 1', async () => {
         const vaccine: VaccineEntity = new VaccineEntity();
         vaccine.id = 1;
         vaccine.description = "test_description";
-        jest.spyOn(vaccineService, 'findById').mockImplementation(async () => vaccine);
-        expect(await vaccineService.findById(1)).toBe(vaccine);
+        jest.spyOn(service, 'findById').mockImplementation(async () => vaccine);
+        expect(await service.findById(1)).toBe(vaccine);
     });
 
 });

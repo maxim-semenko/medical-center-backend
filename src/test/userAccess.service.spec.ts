@@ -5,8 +5,7 @@ import {UserAccessService} from '../service/userAccess.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('UserAccessEntity', () => {
-    let userAccessController: UserAccessController;
-    let userAccessService: UserAccessService;
+    let service: UserAccessService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,17 +21,16 @@ describe('UserAccessEntity', () => {
             ],
         }).compile();
 
-        userAccessController = module.get<UserAccessController>(UserAccessController);
-        userAccessService = module.get<UserAccessService>(UserAccessService);
+        service = module.get<UserAccessService>(UserAccessService);
     });
 
     it('should be defined', () => {
-        expect(userAccessService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete userAccess/1', async () => {
-        jest.spyOn(userAccessService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(userAccessController.delete(1)).toStrictEqual(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(service.deleteById(1)).toStrictEqual(Promise.resolve());
     });
 
     it(`/should find all userAccess/`, async () => {
@@ -44,30 +42,30 @@ describe('UserAccessEntity', () => {
         userAccess_2.email = "test_email";
         let userAccess: Array<UserAccessEntity>;
         userAccess = [userAccess_1, userAccess_2];
-        jest.spyOn(userAccessService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(userAccess);
         });
-        expect(await userAccessController.findAll()).toStrictEqual(userAccess);
+        expect(await service.findAll()).toStrictEqual(userAccess);
     });
 
     it(`/should update userAccess/`, async () => {
         const userAccess: UserAccessEntity = new UserAccessEntity();
         userAccess.userId = 1;
         userAccess.email = "test_email";
-        jest.spyOn(userAccessService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(userAccess);
         });
-        expect(await userAccessController.update(1, userAccess)).toStrictEqual(userAccess);
+        expect(await service.update(1, userAccess)).toStrictEqual(userAccess);
     });
 
     it(`/should create userAccess/`, async () => {
         const userAccess: UserAccessEntity = new UserAccessEntity();
         userAccess.userId = 1;
         userAccess.email = "test_email";
-        jest.spyOn(userAccessService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(userAccess);
         });
-        expect(await userAccessController.create(userAccess)).toStrictEqual(userAccess);
+        expect(await service.create(userAccess)).toStrictEqual(userAccess);
     });
 
 
@@ -75,8 +73,8 @@ describe('UserAccessEntity', () => {
         const userAccess: UserAccessEntity = new UserAccessEntity();
         userAccess.userId = 1;
         userAccess.email = "test_email";
-        jest.spyOn(userAccessService, 'findById').mockImplementation(async () => userAccess);
-        expect(await userAccessService.findById(1)).toStrictEqual(userAccess);
+        jest.spyOn(service, 'findById').mockImplementation(async () => userAccess);
+        expect(await service.findById(1)).toStrictEqual(userAccess);
     });
 
 });

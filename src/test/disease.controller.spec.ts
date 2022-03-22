@@ -5,8 +5,8 @@ import {DiseaseService} from '../service/disease.service';
 import {getRepositoryToken} from "@nestjs/typeorm";
 
 describe('DiseaseEntity', () => {
-    let diseaseController: DiseaseController;
-    let diseaseService: DiseaseService;
+    let controller: DiseaseController;
+    let service: DiseaseService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -22,21 +22,21 @@ describe('DiseaseEntity', () => {
             ],
         }).compile();
 
-        diseaseController = module.get<DiseaseController>(DiseaseController);
-        diseaseService = module.get<DiseaseService>(DiseaseService);
+        controller = module.get<DiseaseController>(DiseaseController);
+        service = module.get<DiseaseService>(DiseaseService);
     });
 
     it('should be defined', () => {
-        expect(diseaseController).toBeDefined();
+        expect(controller).toBeDefined();
     });
 
     it('should be defined', () => {
-        expect(diseaseService).toBeDefined();
+        expect(service).toBeDefined();
     });
 
     it('/Delete disease/1', async () => {
-        jest.spyOn(diseaseService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(diseaseController.delete(1)).toBe(undefined);
+        jest.spyOn(service, 'deleteById').mockImplementation(() => Promise.resolve());
+        expect(controller.delete(1)).toBe(undefined);
     });
 
     it(`/should find all disease/`, async () => {
@@ -46,37 +46,37 @@ describe('DiseaseEntity', () => {
         disease_2.description = "test_description_1";
         let disease: Array<DiseaseEntity>;
         disease = [disease_1, disease_2];
-        jest.spyOn(diseaseService, 'findAll').mockImplementation(() => {
+        jest.spyOn(service, 'findAll').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseController.findAll()).toBe(disease);
+        expect(await controller.findAll()).toBe(disease);
     });
 
     it(`/should update disease/`, async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.diseaseId = 1;
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'update').mockImplementation(() => {
+        jest.spyOn(service, 'update').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseController.update(1, disease)).toBe(disease);
+        expect(await controller.update(1, disease)).toBe(disease);
     });
 
     it(`/should create disease/`, async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.diseaseId = 1;
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'create').mockImplementation(() => {
+        jest.spyOn(service, 'create').mockImplementation(() => {
             return Promise.resolve(disease);
         });
-        expect(await diseaseController.create(disease)).toBe(disease);
+        expect(await controller.create(disease)).toBe(disease);
     });
 
     it('should find by id = 1', async () => {
         const disease: DiseaseEntity = new DiseaseEntity();
         disease.description = "test_description";
-        jest.spyOn(diseaseService, 'findById').mockImplementation(async () => disease);
-        expect(await diseaseController.findById(1)).toBe(disease);
+        jest.spyOn(service, 'findById').mockImplementation(async () => disease);
+        expect(await controller.findById(1)).toBe(disease);
     });
 
 
