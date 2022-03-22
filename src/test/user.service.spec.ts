@@ -32,7 +32,7 @@ describe('UserEntity', () => {
 
     it('/Delete user/1', async () => {
         jest.spyOn(userService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(userController.delete(1)).toBe(undefined);
+        expect(userController.delete(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all user/`, async () => {
@@ -49,7 +49,7 @@ describe('UserEntity', () => {
         jest.spyOn(userService, 'findAll').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.findAll()).toBe(user);
+        expect(await userController.findAll()).toStrictEqual(user);
     });
 
     it(`/should update user/`, async () => {
@@ -59,7 +59,7 @@ describe('UserEntity', () => {
         jest.spyOn(userService, 'update').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.update(1, user)).toBe(user);
+        expect(await userController.update(1, user)).toStrictEqual(user);
     });
 
     it(`/should create user/`, async () => {
@@ -69,7 +69,7 @@ describe('UserEntity', () => {
         jest.spyOn(userService, 'create').mockImplementation(() => {
             return Promise.resolve(user);
         });
-        expect(await userController.create(user)).toBe(user);
+        expect(await userController.create(user)).toStrictEqual(user);
     });
 
 
@@ -80,7 +80,7 @@ describe('UserEntity', () => {
         user.lastname = "test_lastname";
         user.firstname = "test_firstname";
         jest.spyOn(userService, 'findById').mockImplementation(async () => user);
-        expect(await userService.findById(1)).toBe(user);
+        expect(await userService.findById(1)).toStrictEqual(user);
     });
 
 

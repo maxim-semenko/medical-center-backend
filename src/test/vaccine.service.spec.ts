@@ -32,7 +32,7 @@ describe('VaccineEntity', () => {
 
     it('/Delete vaccine/1', async () => {
         jest.spyOn(vaccineService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(vaccineController.delete(1)).toBe(undefined);
+        expect(vaccineController.delete(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all vaccine/`, async () => {
@@ -47,7 +47,7 @@ describe('VaccineEntity', () => {
         jest.spyOn(vaccineService, 'findAll').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.findAll()).toBe(vaccine);
+        expect(await vaccineController.findAll()).toStrictEqual(vaccine);
     });
 
     it(`/should update vaccine/`, async () => {
@@ -57,7 +57,7 @@ describe('VaccineEntity', () => {
         jest.spyOn(vaccineService, 'update').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.update(1, vaccine)).toBe(vaccine);
+        expect(await vaccineController.update(1, vaccine)).toStrictEqual(vaccine);
     });
 
     it(`/should create vaccine/`, async () => {
@@ -67,7 +67,7 @@ describe('VaccineEntity', () => {
         jest.spyOn(vaccineService, 'create').mockImplementation(() => {
             return Promise.resolve(vaccine);
         });
-        expect(await vaccineController.create(vaccine)).toBe(vaccine);
+        expect(await vaccineController.create(vaccine)).toStrictEqual(vaccine);
     });
 
     it('should find by id = 1', async () => {
@@ -75,7 +75,7 @@ describe('VaccineEntity', () => {
         vaccine.id = 1;
         vaccine.description = "test_description";
         jest.spyOn(vaccineService, 'findById').mockImplementation(async () => vaccine);
-        expect(await vaccineService.findById(1)).toBe(vaccine);
+        expect(await vaccineService.findById(1)).toStrictEqual(vaccine);
     });
 
 });

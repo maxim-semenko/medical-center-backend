@@ -44,7 +44,7 @@ describe('MedicalCardEntity', () => {
         jest.spyOn(medicalCardService, 'findAll').mockImplementation(() => {
             return Promise.resolve(medicalCard);
         });
-        expect(await medicalCardController.findUserMedicalCard(1)).toBe(undefined);
+        expect(await medicalCardController.findUserMedicalCard(1)).toStrictEqual(undefined);
     });
 
     it(`/should find employee medicalCard/`, async () => {
@@ -64,7 +64,7 @@ describe('MedicalCardEntity', () => {
 
     it('/Delete medicalCard/1', async () => {
         jest.spyOn(medicalCardService, 'deleteById').mockImplementation(() => Promise.resolve());
-        expect(medicalCardController.delete(1)).toBe(undefined);
+        expect(medicalCardController.delete(1)).toStrictEqual(undefined);
     });
 
     it(`/should find all medicalCard/`, async () => {
@@ -79,7 +79,7 @@ describe('MedicalCardEntity', () => {
         jest.spyOn(medicalCardService, 'findAll').mockImplementation(() => {
             return Promise.resolve(medicalCard);
         });
-        expect(await medicalCardController.findAll()).toBe(medicalCard);
+        expect(await medicalCardController.findAll()).toStrictEqual(medicalCard);
     });
 
     it(`/should update medicalCard/`, async () => {
@@ -89,7 +89,7 @@ describe('MedicalCardEntity', () => {
         jest.spyOn(medicalCardService, 'update').mockImplementation(() => {
             return Promise.resolve(medicalCard);
         });
-        expect(await medicalCardController.update(1, medicalCard)).toBe(medicalCard);
+        expect(await medicalCardController.update(1, medicalCard)).toStrictEqual(medicalCard);
     });
 
     it(`/should create medicalCard/`, async () => {
@@ -99,7 +99,7 @@ describe('MedicalCardEntity', () => {
         jest.spyOn(medicalCardService, 'create').mockImplementation(() => {
             return Promise.resolve(medicalCard);
         });
-        expect(await medicalCardController.create(medicalCard)).toBe(medicalCard);
+        expect(await medicalCardController.create(medicalCard)).toStrictEqual(medicalCard);
     });
 
 
@@ -109,7 +109,7 @@ describe('MedicalCardEntity', () => {
         medicalCard.id = 1;
         medicalCard.description = "test_description";
         jest.spyOn(medicalCardService, 'findById').mockImplementation(async () => medicalCard);
-        expect(await medicalCardService.findById(1)).toBe(medicalCard);
+        expect(await medicalCardService.findById(1)).toStrictEqual(medicalCard);
     });
 
 
