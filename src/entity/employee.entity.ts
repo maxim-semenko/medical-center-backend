@@ -1,6 +1,7 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn,} from "typeorm";
 import {AppointmentEntity} from "./appointment.entity";
-import {IsInt, MaxLength, MinLength, ValidateNested} from "class-validator";
+import {MaxLength, MinLength, ValidateNested} from "class-validator";
+import {UserAccessEntity} from "./userAccess.entity";
 
 @Entity("employee", {schema: "public"})
 export class EmployeeEntity {
@@ -21,11 +22,15 @@ export class EmployeeEntity {
     @MaxLength(50, {message: "Speciality is too long"})
     speciality: string;
 
-    @Column("smallint", {name: "role_id"})
-    @IsInt({message: "Role id is not number"})
-    roleId: number;
-
     @OneToMany(() => AppointmentEntity, (appointment) => appointment.employee)
     @ValidateNested()
     appointments: AppointmentEntity[];
+
+    @OneToOne(() => UserAccessEntity, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+    @JoinColumn([{name: "access_id", referencedColumnName: "id"}])
+    @ValidateNested()
+    access: UserAccessEntity;
 }

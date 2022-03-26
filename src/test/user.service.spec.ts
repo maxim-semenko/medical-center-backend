@@ -21,7 +21,7 @@ describe('UserEntity', () => {
             ],
         }).compile();
 
-       
+
         service = module.get<UserService>(UserService);
     });
 

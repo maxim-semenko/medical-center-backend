@@ -1,8 +1,9 @@
-import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AppointmentEntity} from "./appointment.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
 import {VaccineEntity} from "./vaccine.entity";
 import {IsInt, Length, Max, MaxLength, Min, MinLength, ValidateNested} from "class-validator";
+import {UserAccessEntity} from "./userAccess.entity";
 
 @Entity("user", {schema: "public"})
 export class UserEntity {
@@ -35,10 +36,6 @@ export class UserEntity {
     @MaxLength(50, {message: "Blood type is too long"})
     bloodType: string;
 
-    @Column("smallint", {name: "role_id"})
-    @IsInt()
-    roleId: number;
-
     @OneToMany(() => AppointmentEntity, (appointment) => appointment.userEntity, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -61,4 +58,12 @@ export class UserEntity {
     })
     @ValidateNested()
     medicalCards: MedicalCardEntity[];
+
+    @OneToOne(() => UserAccessEntity, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+    @JoinColumn([{name: "access_id", referencedColumnName: "id"}])
+    @ValidateNested()
+    access: UserAccessEntity;
 }
