@@ -3,7 +3,7 @@ import {DiseaseEntity} from "./disease.entity";
 import {AppointmentEntity} from "./appointment.entity";
 import {UserEntity} from "./user.entity";
 import {EmployeeEntity} from "./employee.entity";
-import {IsBoolean, IsDate, IsInt, MaxLength, ValidateNested} from "class-validator";
+import {IsBoolean, MaxLength, ValidateNested} from "class-validator";
 
 @Entity("medical_card", {schema: "public"})
 export class MedicalCardEntity {
@@ -11,11 +11,9 @@ export class MedicalCardEntity {
     id: number;
 
     @Column("timestamp without time zone", {name: "start_date"})
-    // @IsDate({message: "Start date is not correct"})
     startDate: Timestamp;
 
     @Column("timestamp without time zone", {name: "end_date"})
-    // @IsDate({message: "End date is not correct"})
     endDate: Timestamp;
 
     @Column("character varying", {
@@ -35,7 +33,6 @@ export class MedicalCardEntity {
     isConfirmation: boolean;
 
     @Column("integer", {name: "disease_id"})
-    // @IsInt({message: "Disease id is not number"})
     diseaseId: number | null;
 
     @ManyToOne(() => DiseaseEntity, (disease) => disease.medicalCards, {

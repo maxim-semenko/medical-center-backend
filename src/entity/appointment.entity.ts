@@ -1,5 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Timestamp,} from "typeorm";
-import {IsDate, IsInt, MaxLength, ValidateNested} from "class-validator";
+import {MaxLength, ValidateNested} from "class-validator";
 import {EmployeeEntity} from "./employee.entity";
 import {UserEntity} from "./user.entity";
 import {MedicalCardEntity} from "./medicalCard.entity";
@@ -8,18 +8,15 @@ import {MedicalCardEntity} from "./medicalCard.entity";
 export class AppointmentEntity {
 
     @PrimaryGeneratedColumn({type: "integer", name: "id"})
-    // @IsInt({message: "Id is not correct"})
     id: number;
 
     @Column('timestamp without time zone', {
         name: 'start_date',
         nullable: true,
     })
-    // @IsDate({message: "Start date is incorrect"})
     startDate: Timestamp;
 
     @Column("timestamp without time zone", {name: "end_date"})
-    // @IsDate({message: "End date is incorrect"})
     endDate: Timestamp;
 
     @Column("character varying", {
