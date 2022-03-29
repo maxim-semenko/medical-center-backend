@@ -1,16 +1,30 @@
-import {Controller, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, ClassSerializerInterceptor, Controller, Inject, Post, Req, Request, UseGuards, UseInterceptors} from '@nestjs/common';
+import {LoginDto, RegisterDto} from 'src/security/dto/dto';
 import {AuthenticationService} from "../service/authentication.service";
+import {UserAccessEntity} from "../entity/userAccess.entity";
 import {JwtAuthGuard} from "../security/jwt.authentication.guard";
 
 @Controller("api/v1")
 export class AppController {
-    constructor(private authService: AuthenticationService) {
+
+    @Inject(AuthenticationService)
+    private readonly service: AuthenticationService;
+
+    @Post('/register')
+    @UseInterceptors(ClassSerializerInterceptor)
+    private register(@Body() body: RegisterDto): Promise<UserAccessEntity | never> {
+        return this.service.register(body);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post('/login')
-    async login(@Request() request) {
-        return this.authService.login(request.user);
+    private login(@Body() body: LoginDto): Promise<string | never> {
+        return this.service.login(body);
+    }
+
+    @Post('/refresh')
+    @UseGuards(JwtAuthGuard)
+    private refresh(@Req() user: Request): Promise<string | never> {   //???
+        return this.service.refresh(<any>user);
     }
 
 }
