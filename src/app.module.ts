@@ -11,11 +11,12 @@ import {UserAccessModule} from "./module/userAccess.module";
 import {VaccineModule} from "./module/vaccine.module";
 import {ConfigModule} from '@nestjs/config';
 import {AuthenticationModule} from "./module/authentication.module";
+import {ReportModule} from "./module/report.module";
 
 
 @Module({
     imports: [TypeOrmModule.forRoot(), AppointmentModule, DiseaseModule, EmployeeModule, MedicalCardModule,
-        UserModule, UserAccessModule, VaccineModule, AuthenticationModule, ConfigModule.forRoot({isGlobal: true})],
+        UserModule, UserAccessModule, VaccineModule, AuthenticationModule, ReportModule, ConfigModule.forRoot({isGlobal: true})],
     controllers: [AppController],
     providers: [AppService],
 })
