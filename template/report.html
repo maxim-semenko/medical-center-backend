@@ -19,15 +19,15 @@
     </style>
 </head>
 <body oncopy="return false" oncut="return false" onpaste="return false" class="noSelect">
-<h1>User List</h1>
-<table>
-    <thead>
-    <td>ID</td>
-    <td>Имя</td>
-    <td>Фамилия</td>
-    <td>Специальность</td>
-    </thead>
-    <tbody border="1">
+<div style="text-align: center;"><h3>Список сотрудников</h3></div>
+<table style="width:100%" class="noSelect">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Специальность</th>
+    </tr>
+    <tbody>
     {{#each data}}
     <tr>
         <th><b>{{this.id}}</b></th>

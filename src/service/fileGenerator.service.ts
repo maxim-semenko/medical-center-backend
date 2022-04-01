@@ -7,15 +7,9 @@ const XLSX = require('xlsx');
 export class FileGeneratorService {
 
     public static async getReportCSV(json: any, header: any[]): Promise<StreamableFile> {
-
         const csvStringifier = createCsvStringifier({header});
-
         const buffHeader = Buffer.from(csvStringifier.getHeaderString(), "utf-8");
         const buffRecords = Buffer.from(csvStringifier.stringifyRecords(json), "utf-8");
-
-        console.log(csvStringifier.getHeaderString())
-        console.log(csvStringifier.stringifyRecords(json))
-
         return new StreamableFile(Buffer.concat([buffHeader, buffRecords]));
     }
 
@@ -60,7 +54,6 @@ export class FileGeneratorService {
     }
 
     public static async getReportPDF(json: any, filePath: string): Promise<StreamableFile> {
-
         const pdf = require('pdf-creator-node');
         const fs = require("fs");
         let html = fs.readFileSync(filePath, "utf8");
