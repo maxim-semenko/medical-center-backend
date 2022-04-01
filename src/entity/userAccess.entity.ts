@@ -1,8 +1,9 @@
-import {Column, Entity} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {IsEmail, MaxLength, MinLength} from "class-validator";
 
 @Entity("user_access", {schema: "public"})
 export class UserAccessEntity {
+    @PrimaryGeneratedColumn({type: "integer", name: "id"})
     @Column("integer", {primary: true, unique: true, name: "id"})
     id: number;
 

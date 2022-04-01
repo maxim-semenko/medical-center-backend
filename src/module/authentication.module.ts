@@ -16,11 +16,11 @@ import {AppController} from "../controller/login.controller";
     imports: [
         UserModule,
         UserAccessModule,
-        PassportModule,
+        PassportModule.register({defaultStrategy: 'jwt'}),
         TypeOrmModule.forFeature([UserAccessEntity, UserEntity]),
         JwtModule.register({
             secret: 'JWT_KEY',
-            signOptions: {expiresIn: '10800s'},
+            signOptions: {expiresIn: '3600s'},
         }),
     ],
     controllers: [AppController],
