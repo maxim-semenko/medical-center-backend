@@ -1,19 +1,29 @@
-import {ExecutionContext, Injectable} from '@nestjs/common';
-import {AuthGuard, IAuthGuard} from '@nestjs/passport';
-import {Request} from 'express';
-import {UserAccessEntity} from "../entity/userAccess.entity";
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {AuthGuard} from '@nestjs/passport';
+
+export enum ROLE {
+    HEAD_DOCTOR = "HEAD_DOCTOR",
+    DOCTOR = 'DOCTOR',
+    USER = 'USER',
+    PERMIT_ALL = "PERMIT_ALL"
+}
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') implements IAuthGuard {
-    public handleRequest(err: unknown, user: UserAccessEntity): any {
-        return user;
+export class JwtAuthGuard extends AuthGuard('jwt') {
+    role: ROLE[];
+
+    constructor(role: ROLE[]) {
+        super(role);
+        this.role = role;
     }
 
-    public async canActivate(context: ExecutionContext): Promise<boolean> {
-        await super.canActivate(context);
+    handleRequest(err, role, info: Error) {
+        if (this.role.includes(ROLE.PERMIT_ALL)) {
+            return role;
+        }
 
-        const {user}: Request = context.switchToHttp().getRequest();
-
-        return !!user;
+        if (!this.role.includes(role)) {
+            throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }
     }
 }
