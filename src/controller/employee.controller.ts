@@ -16,28 +16,25 @@ import {EmployeeEntity} from "../entity/employee.entity";
 import {UserEntity} from "../entity/user.entity";
 import {JwtAuthGuard, ROLE} from "../security/jwt.authentication.guard";
 
-const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
-const XLSX = require('xlsx');
-
 @Controller('api/v1/employees')
 export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService) {
     }
 
     @Get('/:id/users')
-    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR, ROLE.DOCTOR]))
     findAllEmployeeUser(@Param("id") employeeId: number): Promise<UserEntity[]> {
         return this.employeeService.findAllEmployeeUser(employeeId);
     }
 
     @Get()
-    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.USER, ROLE.HEAD_DOCTOR]))
     findAll(): Promise<EmployeeEntity[]> {
         return this.employeeService.findAll();
     }
 
     @Get('/:id')
-    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR, ROLE.DOCTOR]))
     findById(@Param("id") id: number): Promise<EmployeeEntity> {
         return this.employeeService.findById(id);
     }
