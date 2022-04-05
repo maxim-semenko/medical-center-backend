@@ -63,17 +63,12 @@ export class FileGeneratorService {
             orientation: "portrait",
             border: "10mm",
             header: {
-                height: "45mm",
-                contents: '<div style="text-align: center;">Автор: Максим Семенько</div>'
+                height: "25mm",
+                contents: '<div style="text-align: center; background-color: #0074D9; color: white"><h1>Мед-центр «Валерия»</h1></div>'
             },
             footer: {
-                height: "28mm",
-                contents: {
-                    first: 'Cover page',
-                    2: 'Second page', // Any page number is working. 1-based index
-                    default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
-                    last: 'Last Page'
-                }
+                height: "25mm",
+                contents: '<div style="text-align: center; background-color: #0074D9; color: white"><h1>Мед-центр «Валерия». Все права защищены</h1></div>'
             }
         };
 
