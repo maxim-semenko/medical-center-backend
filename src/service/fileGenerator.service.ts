@@ -1,5 +1,6 @@
 import {StreamableFile} from "@nestjs/common";
 import {WorkSheet} from "xlsx";
+import getStream from "get-stream";
 
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 const XLSX = require('xlsx');
@@ -54,39 +55,45 @@ export class FileGeneratorService {
     }
 
     public static async getReportPDF(json: any, filePath: string): Promise<StreamableFile> {
-        const pdf = require('pdf-creator-node');
-        const fs = require("fs");
-        let html = fs.readFileSync(filePath, "utf8");
+        const PDFDocument = require("pdfkit-table");
+        const getStream = require('get-stream')
 
-        const options = {
-            format: "A4",
-            orientation: "portrait",
-            border: "10mm",
-            header: {
-                height: "25mm",
-                contents: '<div style="text-align: center; background-color: #0074D9; color: white"><h1>Мед-центр «Валерия»</h1></div>'
+        const docDefinition = {
+            ownerPassword: '123456',
+            permissions: {
+                modifying: false,
+                copying: false,
+                fillingForms: false,
             },
-            footer: {
-                height: "25mm",
-                contents: '<div style="text-align: center; background-color: #0074D9; color: white"><h1>Мед-центр «Валерия». Все права защищены</h1></div>'
-            }
         };
 
-        const document = {
-            html: html,
-            data: {
-                data: json,
-            },
-            type: "buffer",
+        const doc = new PDFDocument(docDefinition);
+
+        doc.registerFont('Heading Font', `C:\\OneDrive\\Maxim\\OneDrive\\IdeaProjects\\medical-center-backend\\arial.ttf`)
+        doc.font('Heading Font')
+        doc.fontSize(18).fillColor("blue").text("Медицинский центр «Валерия»", {align: 'center'})
+        doc.moveDown();
+        doc.fontSize(16).fillColor("black").text("Отчет о всех сотрудниках", {align: 'center'})
+        doc.moveDown();
+
+        const tableJson = {
+            "headers": [
+                {"label": "id", "property": "id"},
+                {"label": "имя", "property": "firstname"},
+                {"label": "фамилия", "property": "lastname"},
+                {"label": "специальность", "property": "speciality"}
+            ],
+            "datas": json,
         };
+        doc.table(tableJson, {
+            prepareHeader: () => doc.font("Heading Font").fontSize(10),
+            prepareRow: (row, i) => doc.font("Heading Font").fontSize(10),
+        });
+        doc.moveDown();
+        doc.fontSize(18).fillColor("blue").text("Медицинский центр «Валерия». Все права защищены", {align: 'center'})
+        doc.end()
 
-        let buffer;
-        await pdf.create(document, options)
-            .then((res) => {
-                buffer = Buffer.from(res, "utf-8");
-            })
-
-        return new StreamableFile(buffer);
+        return new StreamableFile(await getStream.buffer(doc));
     }
 
 }
