@@ -29,7 +29,6 @@ export class UserController {
     }
 
     @Put('/:id')
-    @UsePipes(new ValidationPipe())
     @UseGuards(new JwtAuthGuard([ROLE.PERMIT_ALL]))
     update(@Param("id") id: number, @Body() userEntity: UserEntity): Promise<UserEntity> {
         return this.userService.update(id, userEntity);
