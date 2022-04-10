@@ -8,6 +8,6 @@ export class EmployeeReport {
 
     speciality: string;
 
-    passientCount: number;
+    patientCount: number;
 
 }

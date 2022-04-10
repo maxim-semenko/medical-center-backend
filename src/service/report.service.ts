@@ -25,7 +25,7 @@ export class ReportService {
         @InjectRepository(MedicalCardEntity) private medicalCardRepository: Repository<MedicalCardEntity>) {
     }
 
-    public async getDiseaseReport(): Promise<DiseaseReport[]> {
+    public async getJsonForTopDiseaseReport(): Promise<DiseaseReport[]> {
 
         let data = await this.medicalCardRepository.query("SELECT ds.*," +
             " 100 * COUNT(ds.disease_id) / (SELECT COUNT(*) FROM medical_card) AS percentage FROM disease AS ds" +
@@ -37,7 +37,7 @@ export class ReportService {
 
         for (let i = 0; i < data.length; i++) {
             diseaseObject = new DiseaseReport();
-            diseaseObject.id = i;
+            diseaseObject.id = i + 1;
             diseaseObject.diseaseName = data[i].name;
             diseaseObject.diseaseDescription = data[i].description;
             diseaseObject.diseasePercent = data[i].percentage;
@@ -47,7 +47,7 @@ export class ReportService {
         return report;
     }
 
-    public async getVaccineReport(): Promise<VaccineReport[]> {
+    public async getJsonForVaccinesPatientsReport(): Promise<VaccineReport[]> {
 
         let data = await getRepository(UserEntity).createQueryBuilder("user")
             .innerJoinAndSelect("user.vaccine", "users").getMany();
@@ -58,8 +58,8 @@ export class ReportService {
         for (let i = 0; i < data.length; i++) {
             let vaccines = String();
             vaccineObject = new VaccineReport();
-            vaccineObject.id = i;
-            vaccineObject.firstName = data[i].firstname;
+            vaccineObject.id = i + 1;
+            vaccineObject.firstname = data[i].firstname;
             vaccineObject.lastname = data[i].lastname;
             vaccineObject.passport = data[i].passport;
             vaccineObject.age = data[i].age;
@@ -76,7 +76,7 @@ export class ReportService {
         return report;
     }
 
-    public async getMostSensitivePopulationGroupReport(): Promise<SensitiveGroupReport[]> {
+    public async getJsonForMostSensitivePopulationGroupReport(): Promise<SensitiveGroupReport[]> {
 
         let data = await this.medicalCardRepository.query("SELECT age, COUNT(*) AS people FROM medical_card " +
             " LEFT JOIN public.user u on u.id = medical_card.user_id GROUP BY age ORDER BY COUNT(*) DESC LIMIT 10")
@@ -86,7 +86,7 @@ export class ReportService {
 
         for (let i = 0; i < data.length; i++) {
             groupObject = new SensitiveGroupReport();
-            groupObject.id = i;
+            groupObject.id = i + 1;
             groupObject.age = data[i].age;
             groupObject.peopleCount = data[i].people
 
@@ -103,8 +103,7 @@ export class ReportService {
         return report;
     }
 
-    public async getEmployeeReport(): Promise<EmployeeReport[]> {
-
+    public async getJsonForEmployeeReport(): Promise<EmployeeReport[]> {
         let data = await this.medicalCardRepository.query("SELECT employee.id, firstname, lastname, speciality, COUNT(*) as patient FROM employee" +
             " INNER JOIN medical_card mc on employee.id = mc.\"employeeId\"" +
             " GROUP BY employee.id, firstname, lastname, speciality ORDER BY COUNT(*) DESC")
@@ -114,18 +113,18 @@ export class ReportService {
 
         for (let i = 0; i < data.length; i++) {
             employeeObject = new EmployeeReport();
-            employeeObject.id = i;
+            employeeObject.id = i + 1;
             employeeObject.firstname = data[i].firstname;
             employeeObject.lastname = data[i].lastname;
             employeeObject.speciality = data[i].speciality;
-            employeeObject.passientCount = data[i].patient;
+            employeeObject.patientCount = data[i].patient;
             report.push(employeeObject);
         }
 
         return report;
     }
 
-    public async getUserHistoryReport(passport: string): Promise<UserHistoryReport[]> {
+    public async getJsonForPatientReport(passport: string): Promise<UserHistoryReport[]> {
 
         let data = await this.medicalCardRepository
             .query("SELECT mc.id, u.passport, mc.start_date, mc.end_date, mc.description," +
@@ -142,11 +141,11 @@ export class ReportService {
             userHistoryObject = new UserHistoryReport();
             userHistoryObject.id = data[i].id;
             userHistoryObject.userPassport = data[i].passport;
-            userHistoryObject.startDate = data[i].start_date;
-            userHistoryObject.endDate = data[i].end_date;
+            userHistoryObject.startDate = data[i].start_date.toLocaleString();
+            userHistoryObject.endDate = data[i].end_date.toLocaleString();
             userHistoryObject.description = data[i].description;
-            userHistoryObject.isConfirmation = data[i].is_confirmation;
-            userHistoryObject.isRehabilitation = data[i].is_rehabilitation;
+            userHistoryObject.isConfirmation = data[i].is_confirmation ? 'да' : 'нет';
+            userHistoryObject.isRehabilitation = data[i].is_rehabilitation ? 'да' : 'нет';
             userHistoryObject.diseaseName = data[i].name;
             userHistoryObject.employeeId = data[i].employeeId;
             userHistoryObject.employeeLastname = data[i].lastname;
@@ -157,18 +156,23 @@ export class ReportService {
         return report;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // ТЕСТОВЫЙ МЕТОД ДЛЯ ОТЧЕТА О ВСЕХ СОТРУДНИКАХ
-    public async getReportAboutAllEmployees(type: string, @Response({passthrough: true}) res): Promise<StreamableFile> {
-        const json = await this.employeeRepository.find()
-        console.log(type)
+    // Отчет-1: О наиболее чатсых болезнях
+    public async getReportTopDisease(type: string, @Response({passthrough: true}) res): Promise<StreamableFile> {
+        let json;
+        await this.getJsonForTopDiseaseReport()
+            .then((response) => {
+                json = response
+            });
         switch (type) {
             case "csv": {
                 console.log("DO CSV")
                 const header = [
-                    {id: 'firstname', title: 'Имя'},
-                    {id: 'lastname', title: 'Фамилия'},
-                    {id: 'speciality', title: 'Специальность'},
+                    {id: 'id', title: 'Номер'},
+                    {id: 'diseaseName', title: 'Название'},
+                    {id: 'diseaseDescription', title: 'Описание'},
+                    {id: 'diseasePercent', title: 'Процент(%)'},
                 ]
                 res.set({
                     'Content-Type': 'text/csv',
@@ -177,23 +181,245 @@ export class ReportService {
                 return FileGeneratorService.getReportCSV(json, header)
             }
             case "excel": {
-                const columnNames = ["ID", "Имя", "Фамилия", "Специальность"]
+                const columnNames = ["Номер", "Название", "Описание", "Процент(%)"]
+                const data = json.map((item => {
+                    return [item.id, item.diseaseName, item.diseaseDescription, item.diseasePercent]
+                }))
                 res.set({
                     'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'Content-Disposition': 'attachment; filename="file.xlsx"',
                 });
-                return FileGeneratorService.getReportEXCEL(json, columnNames);
+                return FileGeneratorService.getReportEXCEL(data, columnNames);
             }
             case "pdf": {
-                let filePath = "./template/report.html"
+                let tableHeader = [
+                    {"label": "Номер", "property": "id"},
+                    {"label": "Название", "property": "diseaseName"},
+                    {"label": "Описание", "property": "diseaseDescription"},
+                    {"label": "Процент(%)", "property": "diseasePercent"}
+                ]
                 res.set({
                     'Content-Type': 'application/pdf',
                     'Content-Disposition': 'attachment; filename="file.pdf"',
                 });
-                return FileGeneratorService.getReportPDF(json, filePath);
+                return FileGeneratorService.getReportPDF(json, tableHeader);
             }
         }
     }
 
+    // Отчет-2: О вакцинации пациентов
+    public async getReportVaccinesPatients(type: string, @Response({passthrough: true}) res): Promise<StreamableFile> {
+        let json;
+        await this.getJsonForVaccinesPatientsReport()
+            .then((response) => {
+                json = response
+            });
+        switch (type) {
+            case "csv": {
+                console.log("DO CSV")
+                const header = [
+                    {id: 'id', title: 'Номер'},
+                    {id: 'firstname', title: 'Имя'},
+                    {id: 'lastname', title: 'Фамилия'},
+                    {id: 'passport', title: 'Паспорт'},
+                    {id: 'age', title: 'Возраст'},
+                    {id: 'vaccines', title: 'Вакцины'},
+                ]
+                res.set({
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition': 'attachment; filename="file.csv"',
+                });
+                return FileGeneratorService.getReportCSV(json, header)
+            }
+            case "excel": {
+                const columnNames = ["Номер", "Имя", "Фамилия", "Паспорт", "Возраст", "Вакцины"]
+                const data = json.map((item => {
+                    return [item.id, item.firstname, item.lastname, item.passport, item.age, item.vaccines]
+                }))
+                res.set({
+                    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'Content-Disposition': 'attachment; filename="file.xlsx"',
+                });
+                return FileGeneratorService.getReportEXCEL(data, columnNames);
+            }
+            case "pdf": {
+                let tableHeader = [
+                    {"label": "Номер", "property": "id"},
+                    {"label": "Имя", "property": "firstname"},
+                    {"label": "Фамилия", "property": "lastname"},
+                    {"label": "Паспорт", "property": "passport"},
+                    {"label": "Возраст", "property": "age"},
+                    {"label": "Вакцины", "property": "vaccines"},
+                ]
+                res.set({
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename="file.pdf"',
+                });
+                return FileGeneratorService.getReportPDF(json, tableHeader);
+            }
+        }
+    }
+
+    // Отчет-3: О возрастных группах пацентов
+    public async getMostSensitivePopulationGroupReport(type: string, @Response({passthrough: true}) res): Promise<StreamableFile> {
+        let json;
+        await this.getJsonForMostSensitivePopulationGroupReport()
+            .then((response) => {
+                json = response
+            });
+        switch (type) {
+            case "csv": {
+                console.log("DO CSV")
+                const header = [
+                    {id: 'id', title: 'Номер'},
+                    {id: 'age', title: 'Возраст'},
+                    {id: 'peopleCount', title: 'Количество'},
+                    {id: 'diseaseName', title: 'Частая болезнь'},
+                    {id: 'diseaseDescription', title: 'Описание'},
+                ]
+                res.set({
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition': 'attachment; filename="file.csv"',
+                });
+                return FileGeneratorService.getReportCSV(json, header)
+            }
+            case "excel": {
+                const columnNames = ["Номер", "Возраст", "Количество", "Частая болезнь", "Описание"]
+                const data = json.map((item => {
+                    return [item.id, item.age, item.peopleCount, item.diseaseName, item.diseaseDescription]
+                }))
+                res.set({
+                    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'Content-Disposition': 'attachment; filename="file.xlsx"',
+                });
+                return FileGeneratorService.getReportEXCEL(data, columnNames);
+            }
+            case "pdf": {
+                let tableHeader = [
+                    {"label": "Номер", "property": "id"},
+                    {"label": "Возраст", "property": "age"},
+                    {"label": "Количество", "property": "peopleCount"},
+                    {"label": "Частая болезнь", "property": "diseaseName"},
+                    {"label": "Описание", "property": "diseaseDescription"},
+                ]
+                res.set({
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename="file.pdf"',
+                });
+                return FileGeneratorService.getReportPDF(json, tableHeader);
+            }
+        }
+    }
+
+    // Отчет-4: О сотрудниках
+    public async getAboutEmployeesReport(type: string, @Response({passthrough: true}) res): Promise<StreamableFile> {
+        let json;
+        await this.getJsonForEmployeeReport()
+            .then((response) => {
+                json = response
+            });
+        switch (type) {
+            case "csv": {
+                console.log("DO CSV")
+                const header = [
+                    {id: 'id', title: 'Номер'},
+                    {id: 'firstname', title: 'Имя'},
+                    {id: 'lastname', title: 'Фамилия'},
+                    {id: 'speciality', title: 'Квалификация'},
+                    {id: 'patientCount', title: 'Количество пациентов'},
+                ]
+                res.set({
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition': 'attachment; filename="file.csv"',
+                });
+                return FileGeneratorService.getReportCSV(json, header)
+            }
+            case "excel": {
+                const columnNames = ["Номер", "Имя", "Фамилия", "Квалификация", "Количество пациентов"]
+                const data = json.map((item => {
+                    return [item.id, item.firstname, item.lastname, item.speciality, item.patientCount]
+                }))
+                res.set({
+                    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'Content-Disposition': 'attachment; filename="file.xlsx"',
+                });
+                return FileGeneratorService.getReportEXCEL(data, columnNames);
+            }
+            case "pdf": {
+                let tableHeader = [
+                    {"label": "Номер", "property": "id"},
+                    {"label": "Имя", "property": "firstname"},
+                    {"label": "Фамилия", "property": "lastname"},
+                    {"label": "Квалификация", "property": "speciality"},
+                    {"label": "Количество пациентов", "property": "patientCount"},
+                ]
+                res.set({
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename="file.pdf"',
+                });
+                return FileGeneratorService.getReportPDF(json, tableHeader);
+            }
+        }
+    }
+
+    // Отчет-5: О пациенте
+    public async getAboutPatientReport(type: string, @Response({passthrough: true}) res, passport: string): Promise<StreamableFile> {
+        let json;
+        await this.getJsonForPatientReport(passport)
+            .then((response) => {
+                json = response
+            });
+        switch (type) {
+            case "csv": {
+                console.log("DO CSV")
+                const header = [
+                    {id: 'userPassport', title: 'Паспорт пациента'},
+                    {id: 'startDate', title: 'Начало'},
+                    {id: 'endDate', title: 'Конец'},
+                    {id: 'description', title: 'Описание'},
+                    {id: 'isConfirmation', title: 'Подтверждение'},
+                    {id: 'isRehabilitation', title: 'Реабилитация'},
+                    {id: 'diseaseName', title: 'Болезнь'},
+                    {id: 'employeeLastname', title: 'Врач'},
+                ]
+                res.set({
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition': 'attachment; filename="file.csv"',
+                });
+                return FileGeneratorService.getReportCSV(json, header)
+            }
+            case "excel": {
+                const columnNames = ["Паспорт пациента", "Начало", "Конец", "Описание", "Подтверждение",
+                    "Реабилитация", "Болезнь", "Врач"]
+                const data = json.map((item => {
+                    return [item.userPassport, item.startDate, item.endDate, item.description,
+                        item.isConfirmation, item.isRehabilitation, item.diseaseName, item.employeeLastname]
+                }))
+                res.set({
+                    'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'Content-Disposition': 'attachment; filename="file.xlsx"',
+                });
+                return FileGeneratorService.getReportEXCEL(data, columnNames);
+            }
+            case "pdf": {
+                let tableHeader = [
+                    {"label": "Паспорт пациента", "property": "userPassport"},
+                    {"label": "Начало", "property": "startDate"},
+                    {"label": "Конец", "property": "endDate"},
+                    {"label": "Описание", "property": "description"},
+                    {"label": "Подтверждение", "property": "isConfirmation"},
+                    {"label": "Реабилитация", "property": "isRehabilitation"},
+                    {"label": "Болезнь", "property": "diseaseName"},
+                    {"label": "Врач", "property": "employeeLastname"},
+                ]
+                res.set({
+                    'Content-Type': 'application/pdf',
+                    'Content-Disposition': 'attachment; filename="file.pdf"',
+                });
+                return FileGeneratorService.getReportPDF(json, tableHeader);
+            }
+        }
+    }
 
 }
+

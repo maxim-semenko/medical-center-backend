@@ -6,6 +6,7 @@ const XLSX = require('xlsx');
 
 export class FileGeneratorService {
 
+    // GENERATE CSV
     public static async getReportCSV(json: any, header: any[]): Promise<StreamableFile> {
         const csvStringifier = createCsvStringifier({header});
         const buffHeader = Buffer.from(csvStringifier.getHeaderString(), "utf-8");
@@ -13,12 +14,9 @@ export class FileGeneratorService {
         return new StreamableFile(Buffer.concat([buffHeader, buffRecords]));
     }
 
-
+    // GENERATE EXCEL
     public static async getReportEXCEL(json: any, columns: any[]): Promise<StreamableFile> {
         const columnNames = columns;
-        const data = json.map((item => {
-            return [item.id, item.firstname, item.lastname, item.speciality]
-        }))
 
         let objectMaxLength = [];
         for (let i = 0; i < json.length; i++) {
@@ -38,7 +36,7 @@ export class FileGeneratorService {
         }
 
         const workBook = XLSX.utils.book_new();                     // create workbook
-        const workSheetData = [columnNames, ...data];
+        const workSheetData = [columnNames, ...json];
         const worksheet: WorkSheet = XLSX.utils.aoa_to_sheet(workSheetData);
 
         const cols = [];
@@ -53,7 +51,8 @@ export class FileGeneratorService {
         return new StreamableFile(file);
     }
 
-    public static async getReportPDF(json: any, filePath: string): Promise<StreamableFile> {
+    // GENREATE PDF
+    public static async getReportPDF(json: any, tableHeader: any[]): Promise<StreamableFile> {
         const PDFDocument = require("pdfkit-table");
         const getStream = require('get-stream')
 
@@ -72,21 +71,16 @@ export class FileGeneratorService {
         doc.font('Heading Font')
         doc.fontSize(18).fillColor("blue").text("Медицинский центр «Валерия»", {align: 'center'})
         doc.moveDown();
-        doc.fontSize(16).fillColor("black").text("Отчет о всех сотрудниках", {align: 'center'})
+        doc.fontSize(16).fillColor("black").text("Отчет", {align: 'center'})
         doc.moveDown();
 
         const tableJson = {
-            "headers": [
-                {"label": "id", "property": "id"},
-                {"label": "имя", "property": "firstname"},
-                {"label": "фамилия", "property": "lastname"},
-                {"label": "специальность", "property": "speciality"}
-            ],
+            "headers": tableHeader,
             "datas": json,
         };
         doc.table(tableJson, {
-            prepareHeader: () => doc.font("Heading Font").fontSize(10),
-            prepareRow: (row, i) => doc.font("Heading Font").fontSize(10),
+            prepareHeader: () => doc.font("Heading Font").fontSize(9),
+            prepareRow: (row, i) => doc.font("Heading Font").fontSize(9),
         });
         doc.moveDown();
         doc.fontSize(18).fillColor("blue").text("Медицинский центр «Валерия». Все права защищены", {align: 'center'})

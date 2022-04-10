@@ -2,7 +2,7 @@ export class VaccineReport {
 
     id: number;
 
-    firstName: string;
+    firstname: string;
 
     lastname: string;
 

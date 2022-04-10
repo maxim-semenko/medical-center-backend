@@ -1,4 +1,3 @@
-import {Timestamp} from "typeorm";
 import {EmployeeEntity} from "../entity/employee.entity";
 
 export class UserHistoryReport {
@@ -7,15 +6,15 @@ export class UserHistoryReport {
 
     userPassport;
 
-    startDate: Timestamp;
+    startDate: string;
 
-    endDate: Timestamp;
+    endDate: string;
 
     description: string;
 
-    isRehabilitation: boolean;
+    isRehabilitation: string;
 
-    isConfirmation: boolean;
+    isConfirmation: string;
 
     diseaseName: string;
 

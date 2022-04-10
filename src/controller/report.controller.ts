@@ -1,44 +1,40 @@
 import {Controller, Get, Param, Query, Response, StreamableFile} from "@nestjs/common";
 import {ReportService} from "../service/report.service";
-import {DiseaseReport} from "../report/disease.report";
-import {VaccineReport} from "../report/vaccine.report";
-import {EmployeeReport} from "../report/employee.report";
-import {SensitiveGroupReport} from "../report/sensitive.group.report";
-import {UserHistoryReport} from "../report/user.history.report";
 
 @Controller('api/v1/reports')
 export class ReportController {
     constructor(private readonly reportService: ReportService) {
     }
 
-    @Get('/report-employee')
-    async getReportEXCEL(@Response({passthrough: true}) res, @Query('type') type: string): Promise<StreamableFile> {
-        return this.reportService.getReportAboutAllEmployees(type, res);
+    @Get('/diseases-top')
+    async getReportTopDisease(@Response({passthrough: true}) res,
+                              @Query('type') type: string): Promise<StreamableFile> {
+        return this.reportService.getReportTopDisease(type, res);
     }
 
-    @Get('/testReport_1')
-    async getReport1(): Promise<DiseaseReport[]> {
-        return this.reportService.getDiseaseReport();
+    @Get('/vaccines-patients')
+    async getReportVaccinesPatients(@Response({passthrough: true}) res,
+                                    @Query('type') type: string): Promise<StreamableFile> {
+        return this.reportService.getReportVaccinesPatients(type, res);
     }
 
-    @Get('/testReport_2')
-    async getReport2(): Promise<VaccineReport[]> {
-        return this.reportService.getVaccineReport();
+    @Get('/sensitive-population-group')
+    async getMostSensitivePopulationGroupReport(@Response({passthrough: true}) res,
+                                                @Query('type') type: string): Promise<StreamableFile> {
+        return this.reportService.getMostSensitivePopulationGroupReport(type, res);
     }
 
-    @Get('/testReport_3')
-    async getReport3(): Promise<SensitiveGroupReport[]> {
-        return this.reportService.getMostSensitivePopulationGroupReport();
+    @Get('/about-employees')
+    async getAboutEmployeesReport(@Response({passthrough: true}) res,
+                                  @Query('type') type: string): Promise<StreamableFile> {
+        return this.reportService.getAboutEmployeesReport(type, res);
     }
 
-    @Get('/testReport_4')
-    async getReport4(): Promise<EmployeeReport[]> {
-        return this.reportService.getEmployeeReport();
-    }
-
-    @Get('/testReport_5/:userPassport')
-    async getReport5(@Param("userPassport") passport: string): Promise<UserHistoryReport[]> {
-        return this.reportService.getUserHistoryReport(passport);
+    @Get('/about-patient/:userPassport')
+    async getAboutPatientReport(@Response({passthrough: true}) res,
+                                @Query('type') type: string,
+                                @Param("userPassport") passport: string): Promise<StreamableFile> {
+        return this.reportService.getAboutPatientReport(type, res, passport);
     }
 
 }
