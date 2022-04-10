@@ -2,10 +2,14 @@ export class VaccineReport {
 
     id: number;
 
-    userFIO: string;
+    firstName: string;
+
+    lastname: string;
+
+    passport: string;
+
+    age: number;
 
     vaccines: string;
-
-    diseasePercent: number;
 
 }
