@@ -1,16 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    Param,
-    Post,
-    Put,
-    UseGuards,
-    UsePipes,
-    ValidationPipe
-} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards, UsePipes, ValidationPipe} from '@nestjs/common';
 import {EmployeeService} from '../service/employee.service';
 import {EmployeeEntity} from "../entity/employee.entity";
 import {UserEntity} from "../entity/user.entity";

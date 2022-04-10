@@ -1,6 +1,5 @@
 import {StreamableFile} from "@nestjs/common";
 import {WorkSheet} from "xlsx";
-import getStream from "get-stream";
 
 const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
 const XLSX = require('xlsx');
