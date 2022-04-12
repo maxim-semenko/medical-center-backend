@@ -1,4 +1,16 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards, UsePipes, ValidationPipe} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
 import {EmployeeService} from '../service/employee.service';
 import {EmployeeEntity} from "../entity/employee.entity";
 import {UserEntity} from "../entity/user.entity";
@@ -16,13 +28,13 @@ export class EmployeeController {
     }
 
     @Get()
-    @UseGuards(new JwtAuthGuard([ROLE.USER, ROLE.HEAD_DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.PERMIT_ALL]))
     findAll(): Promise<EmployeeEntity[]> {
         return this.employeeService.findAll();
     }
 
     @Get('/:id')
-    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR, ROLE.DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.PERMIT_ALL]))
     findById(@Param("id") id: number): Promise<EmployeeEntity> {
         return this.employeeService.findById(id);
     }
@@ -37,7 +49,7 @@ export class EmployeeController {
 
     @Put('/:id')
     @UsePipes(new ValidationPipe())
-    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR]))
+    @UseGuards(new JwtAuthGuard([ROLE.HEAD_DOCTOR, ROLE.DOCTOR]))
     update(@Param("id") id: number, @Body() employeeEntity: EmployeeEntity): Promise<EmployeeEntity> {
         return this.employeeService.update(id, employeeEntity);
     }

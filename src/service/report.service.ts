@@ -28,7 +28,7 @@ export class ReportService {
     public async getJsonForTopDiseaseReport(): Promise<DiseaseReport[]> {
 
         let data = await this.medicalCardRepository.query("SELECT ds.*," +
-            " 100 * COUNT(ds.disease_id) / (SELECT COUNT(*) FROM medical_card) AS percentage FROM disease AS ds" +
+            " round(100 * COUNT(ds.disease_id)::decimal / (SELECT COUNT(*) FROM medical_card)::decimal, 2) AS percentage FROM disease AS ds" +
             " RIGHT JOIN medical_card mc ON ds.disease_id = mc.disease_id " +
             " GROUP BY ds.disease_id, name, ds.description ORDER BY COUNT(ds.disease_id) DESC LIMIT 10")
 

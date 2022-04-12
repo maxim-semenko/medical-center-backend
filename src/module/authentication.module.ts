@@ -11,13 +11,14 @@ import {UserAccessEntity} from "../entity/userAccess.entity";
 import {UserEntity} from "../entity/user.entity";
 import {AuthenticationHelper} from "../security/authentication.helper";
 import {AppController} from "../controller/login.controller";
+import {EmployeeEntity} from "../entity/employee.entity";
 
 @Module({
     imports: [
         UserModule,
         UserAccessModule,
         PassportModule.register({defaultStrategy: 'jwt'}),
-        TypeOrmModule.forFeature([UserAccessEntity, UserEntity]),
+        TypeOrmModule.forFeature([UserAccessEntity, UserEntity, EmployeeEntity]),
         JwtModule.register({
             secret: 'JWT_KEY',
             signOptions: {expiresIn: '3600s'},

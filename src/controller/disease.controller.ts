@@ -1,4 +1,16 @@
-import {Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards, UsePipes, ValidationPipe} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    Param,
+    Post,
+    Put,
+    UseGuards,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
 import {DiseaseService} from '../service/disease.service';
 import {DiseaseEntity} from "../entity/disease.entity";
 import {JwtAuthGuard, ROLE} from "../security/jwt.authentication.guard";
